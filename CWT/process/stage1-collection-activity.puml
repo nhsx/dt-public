@@ -1,0 +1,19 @@
+@startuml
+:File Uploaded;
+:Stage 1 - Collection;
+:Pre-Merge Validation]
+if (Record PassedSimple Validation?) then (yes)
+  :Stage 2 - Match and Merge service;
+  if (Post Merge Validation passed) then (no)
+    :Reject record(s)]  
+  else (yes)
+    :Match and Merge Rules]
+  endif
+  
+else (no)
+  :Reject record(s)]
+endif
+
+
+
+@enduml
