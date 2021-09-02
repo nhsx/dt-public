@@ -31,7 +31,7 @@ How to create architecture documentation (AD) that is easy to view, edit, share 
 
 ### Overview
 
-All AD is created as Markdown (.md) files. The files are stored in Google Drive (Google Workspace) which is sync'd to the local file system using the Google Drive Agent. The files are also added to a private Github repository. Local git client is used to checkout this repository into the local sync'd copy of the Google Drive. Therefore the AD can be created and edited in place and saved to Google Drive as well as being committed to Github for change control. 
+Following a [Documentation as Code](https://technology.blog.gov.uk/2017/08/25/why-we-use-a-docs-as-code-approach-for-technical-documentation/) approach all AD is created as [Markdown](https://www.markdownguide.org/getting-started/) (.md) files. The files are stored in Google Drive (Google Workspace) which is sync'd to the local file system using the Google Drive Agent. The files are also added to a private Github repository. Local git client is used to checkout this repository into the local sync'd copy of the Google Drive. Therefore the AD can be created and edited in place and saved to Google Drive as well as being committed to Github for change control. 
 
 A markdown viewer add-in is added to Google Drive to enable preview of markdown files from within Google Workspace. A markdown viewer add-in is added to the local text editor Notepad++ to enable AD to be previewed when created and edited locally.
 
@@ -82,7 +82,7 @@ git push
 ### HOW TO - Add Plant UML to Markdown 
 1. Create a new Github action to copy Plant UML (.puml) files from your private repository to your public repository - this means you can then reference these diagrams in your markdown documents
   - In your private Github repository create a secret named `PERSONAL_TOKEN` with the value set to the PAT your created earlier
-  - Under Actions, create a new workflow called (e.g. uml-publish.yml):
+  - Under Actions, create a new workflow called (e.g. uml-publish.yml) based on this [Copy Cat action](https://github.com/andstor/copycat-action):
 ```yaml
 name: UML Publish
 
@@ -144,6 +144,7 @@ The proposed solution satisfies the concerns, however it does require some techn
 ## See Also
 - https://www.google.com/drive/download/ - Google Drive Agent
 - https://github.com/join - Create Github account
+- https://github.com/andstor/copycat-action - Copycat action used to copy UML files to the public repository
 - https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token - Creating a Github PAT 
 - https://git-scm.com/download/win - Git for Windows
 - https://notepad-plus-plus.org/downloads/ - Notepad++ GUI text editor with plugins
@@ -152,7 +153,10 @@ The proposed solution satisfies the concerns, however it does require some techn
 - https://workspace.google.com/marketplace/app/markee_markdown_editor/623667008977 - Markdown viewer add-in for Google Drive
 - https://chrome.google.com/webstore/detail/plantuml-visualizer/ffaloebcmkogfdkemcekamlmfkkmgkcf - Plant UML add-in for Chrome
 - https://blog.anoff.io/2018-07-31-diagrams-with-plantuml/ - How to add Plant UML into Github markdown
-- 
+- https://technology.blog.gov.uk/2017/08/25/why-we-use-a-docs-as-code-approach-for-technical-documentation/ - GOV.UK blog about Documentation as Code
+- https://www.markdownguide.org/getting-started/ - Markdown guide
+- https://guides.github.com/features/mastering-markdown/ - Github Markdown guide
+- https://plantuml.com/ - Free open source tool for creating UML diagrams from simple text markup
 
 
 
