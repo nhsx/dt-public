@@ -1,3 +1,4 @@
 @startuml
 Bob->Alice : Hello!
+Alice->Charlie : Yay!
 @enduml
