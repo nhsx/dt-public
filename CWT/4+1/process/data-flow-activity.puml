@@ -1,0 +1,47 @@
+@startuml
+|#LightGray|S1| <b>Stage 1\nCollection
+|#White|S2| <b>Stage 2\nMatch and Merge
+|#LightGray|S3| <b>Stage 3\nDerivation
+|#White|S4| <b>Stage 4\nCompliance
+|#LightGray|S5| <b>Stage 5\nReport Synchronizer
+|S1|
+start
+:File Uploaded;
+#Orange:Pre-Merge Validation|
+if (Record passed simple validation?) then (no)
+  :Reject record(s)] 
+  end 
+else (yes)
+|S2|
+endif  
+#Orange:Post-Merge Validation|
+if (Post Merge Validation passed?) then (no)
+  :Reject record(s)] 
+  end 
+else (yes)
+  #Orange:Match and Merge Rules|
+  split
+   #Orange:Merge with existing\nrecord|
+  split again
+   #Orange:New record\ncreated|
+  end split
+endif
+|S3|
+#Orange:Calculations|
+|S4|
+#Orange:Compliance rules|
+|S5|
+split
+  #Orange:Patient search|
+  detach
+split again
+  #Orange:Preview|
+  detach  
+split again
+  #Orange:Download| 
+  detach  
+split again
+  #Orange:Reporting functionality| 
+  detach    
+end split
+@enduml

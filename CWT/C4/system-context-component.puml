@@ -1,0 +1,30 @@
+@startuml C4_Elements
+!include <C4/C4_Container>
+
+Person(cau, "Cancer Alliance User", "")
+Person(dau, "Digital Analytical Team User", "")
+Person(pcu, "PCN User", "")
+Person_Ext(sdv, "Somerset Developer", "")
+Person_Ext(ndv, "NHSD Developer", "")
+
+System(cwt, "Cancer Waiting Times System", "")
+System_Ext(pbi, "Power BI", "Reporting and analysis")
+
+Boundary("trust", "Provider", "") {
+  Person(tu, "Trust User", "")
+  System_Ext(tdb, "EPR", "Trust Patient Database")
+}
+
+Rel_R(cau, cwt, "Downloads report data", "")
+Rel_L(pcu, cwt, "View reports", "")
+Rel_U(tu, cwt, "Uploads CWT Data", "SCDS")
+Rel_U(dau, cwt, "Queries", "")
+Rel_U(pbi, cau, "Uses", "")
+
+Rel(ndv, cwt, "Admin access / deployment / maintenance")
+Rel(sdv, cwt, "Check report outputs")
+
+Rel_U(tdb, tu, "Export CWT data")
+
+LAYOUT_WITH_LEGEND()
+@enduml
