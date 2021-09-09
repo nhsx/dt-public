@@ -1,5 +1,5 @@
 @startuml C4_Elements
-!include <C4/C4_Container>
+!include <C4/C4_Context>
 
 Person(cau, "Cancer Alliance User", "")
 Person(dau, "Digital Analytical Team User", "")

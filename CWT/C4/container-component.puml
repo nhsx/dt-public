@@ -1,0 +1,40 @@
+@startuml
+!include <azure/AzureCommon>
+!include <azure/Web/AzureWebApp>
+!include <azure/Databases/AzureSqlDatabase>
+!include <azure/Storage/AzureQueueStorage>
+!include <C4/C4_Container>
+skinparam linetype ortho
+
+Person(tu, "Trust User", "")
+System_Boundary(cwt, "CWT System") {
+  Container(web, "CWT Web App", "C#, ASP.NET Core 2.1 MVC", $descr="Front end for the CWT system", $sprite="AzureWebApp")
+  Container(col, "Collection Service", "C#, .NET", $descr="Process file imports", $sprite="AzureWebApp")
+  Container(mm, "Merge and Match Service", "C#, .NET", $descr="Match existing records, create new records", $sprite="AzureWebApp")
+  Container(der, "Derivation Service", "C#, .NET", $descr="Calculate derived fields", $sprite="AzureWebApp")
+  Container(cmp, "Compliance Service", "C#, .NET", $descr="Rules engine applying compliance rules", $sprite="AzureWebApp")
+  Container(syc, "Reports Synchroniser Service", "C#, .NET", $descr="Synchronise reporting data", $sprite="AzureWebApp")
+  ContainerDb(db, "CWT Database", "MS SQL Server", $sprite="AzureSqlDatabase")
+  ContainerQueue(qu, "Queue", "SSQS", "FIFO Queue for intra-service messaging", $sprite="AzureQueueStorage")
+}
+
+System_Boundary(id, "Identity") {
+  Container_Ext(sso, "SSO", "OAuth", $descr="Authentication", $sprite="AzureWebApp")
+}
+
+System_Boundary(scds, "SCDS") {
+  Container_Ext(auth, "ACL", "", $descr="Role based authorisation", $sprite="AzureWebApp")
+  Container_Ext(imp, "Import", "", $descr="File import and simple validation", $sprite="AzureWebApp")
+}
+
+Rel_U(tu, sso, "Authenticates with", "https")
+Rel(tu, web, "Signs in", "https")
+Rel(tu, web, "Uploads CWT Data", "https")
+Rel(web, col, "Imports CWT Data using", "")
+Rel(col, imp, "Uses", "")
+Rel(col, mm, "Supplies imported data", "")
+Rel(mm, db, "Queries data", "SQL")
+
+LAYOUT_WITH_LEGEND()
+
+@enduml
