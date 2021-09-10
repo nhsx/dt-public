@@ -1,0 +1,27 @@
+@startuml
+!include <azure/AzureCommon>
+!include <azure/Web/AzureWebApp>
+!include <azure/Databases/AzureSqlDatabase>
+!include <azure/Storage/AzureQueueStorage>
+!include <C4/C4_Dynamic>
+
+Person(tu, "Trust User", "")
+System_Boundary(cwt, "CWT System") {
+  Container(web, "CWT Web App", "C#, ASP.NET Core 2.1 MVC", $descr="Front end for the CWT system", $sprite="AzureWebApp")
+  Container(col, "Collection Service", "C#, .NET", $descr="Process file imports", $sprite="AzureWebApp")
+  Container(mm, "Merge and Match Service", "C#, .NET", $descr="Match existing records, create new records", $sprite="AzureWebApp")
+  Container(der, "Derivation Service", "C#, .NET", $descr="Calculate derived fields", $sprite="AzureWebApp")
+  Container(cmp, "Compliance Service", "C#, .NET", $descr="Rules engine applying compliance rules", $sprite="AzureWebApp")
+  Container(syc, "Reports Synchroniser Service", "C#, .NET", $descr="Synchronise reporting data", $sprite="AzureWebApp")
+  ContainerDb(db, "CWT Database", "MS SQL Server", $sprite="AzureSqlDatabase")
+}
+
+RelIndex_D(0,tu, web, "Uploads CWT data")
+Rel(web, col, "Data Collection")
+Rel_R(col, mm, "Match and merge")
+Rel_R(mm, der, "Derivation")
+Rel(der, cmp, "Compliance")
+Rel_L(cmp, syc, "Synchronise")
+Rel_L(syc, db, "Store")
+
+@enduml
