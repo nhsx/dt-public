@@ -1,0 +1,62 @@
+@startuml
+!include <azure/AzureCommon>
+!include <azure/Web/AzureWebApp>
+!include <azure/Databases/AzureSqlDatabase>
+!include <azure/Storage/AzureQueueStorage>
+!include <C4/C4_Deployment>
+
+Deployment_Node(aws, "Live", "AWS", "Production system"){
+  Deployment_Node_L(srv1, "AWS VM", "Windows Server", ""){
+    'AddProperty("Java Version", "8")
+    'AddProperty("Xmx", "512M")
+    'AddProperty("Xms", "1024M")
+    Deployment_Node_L(ws1, "Web server", "???", ""){
+      Container(web, "CWT Web App", "C#, ASP.NET Core 2.1 MVC", "", $sprite="AzureWebApp")
+    }
+  }
+  Deployment_Node_L(srv2, "AWS VM", "Windows Server", ""){
+    Deployment_Node_L(ws2, "Web server", "???", ""){
+      Container(col, "Collection Service", "C#, .NET", "Process file imports", $sprite="AzureWebApp")
+    }
+  }
+  Deployment_Node_L(srv3, "AWS VM", "Windows Server", ""){
+    Deployment_Node_L(ws3, "Web server", "???", ""){
+      Container(mm, "Merge and Match Service", "C#, .NET", "Match existing records, create new records", $sprite="AzureWebApp")
+    }
+  }
+  Deployment_Node_L(srv4, "AWS VM", "Windows Server", ""){
+    Deployment_Node_L(ws4, "Web server", "???", ""){
+      Container(der, "Derivation Service", "C#, .NET", "Calculate derived fields", $sprite="AzureWebApp")
+    }
+  }
+  Deployment_Node_L(srv5, "AWS VM", "Windows Server", ""){
+    Deployment_Node_L(ws5, "Web server", "???", ""){
+      Container(cmp, "Compliance Service", "C#, .NET", "Rules engine applying compliance rules", $sprite="AzureWebApp")
+    }
+  }
+  Deployment_Node_L(srv6, "AWS VM", "Windows Server", ""){
+    Deployment_Node_L(ws6, "Web server", "???", ""){
+      Container(syc, "Reports Synchroniser Service", "C#, .NET", "Synchronise reporting data", $sprite="AzureWebApp")
+    }
+  }
+
+  Deployment_Node_L(dbsrv, "AWS VM", "Windows Server", ""){
+    Deployment_Node_L(sql, "MS SQL Sever", "", "The primary, live database server."){
+      ContainerDb(db, "CWT Database", "MS SQL Server", $sprite="AzureSqlDatabase")
+    }
+  }
+
+   Deployment_Node_L(qusrv, "AWS VM", "Windows Server", ""){
+    Deployment_Node_L(ssqs, "SSQS", "", "SQL Server Queue Services"){
+      ContainerQueue(qu, "Queue", "SSQS", "FIFO Queue for intra-service messaging", $sprite="AzureQueueStorage", $tags="queue")
+    }
+  } 
+
+  Lay_U(srv4, srv1)
+  Lay_U(srv5, srv2)
+  Lay_U(srv6, srv3)  
+
+  Lay_U(dbsrv, srv6) 
+  Lay_U(qusrv, srv5)    
+}
+@enduml
