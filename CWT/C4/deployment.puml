@@ -4,6 +4,17 @@
 !include <azure/Databases/AzureSqlDatabase>
 !include <azure/Storage/AzureQueueStorage>
 !include <C4/C4_Deployment>
+!include <logos/octopus-deploy>
+!include https://raw.githubusercontent.com/asmith-nhsx/public/main/C4_Ext.puml
+
+LAYOUT_LEFT_RIGHT()
+
+Deployment_Node_L(depsrv, "AWS VM", "Windows Server", ""){
+  'AddProperty("Java Version", "8")
+  'AddProperty("Xmx", "512M")
+  'ddProperty("Xms", "1024M")
+  Container(dep, "Deployment Orchestrator", "Octopus Deploy", "", $sprite="octopus-deploy")
+}
 
 Deployment_Node(aws, "Live", "AWS", "Production system"){
   Deployment_Node_L(srv1, "AWS VM", "Windows Server", ""){
@@ -21,22 +32,22 @@ Deployment_Node(aws, "Live", "AWS", "Production system"){
   }
   Deployment_Node_L(srv3, "AWS VM", "Windows Server", ""){
     Deployment_Node_L(ws3, "Web server", "???", ""){
-      Container(mm, "Merge and Match Service", "C#, .NET", "Match existing records, create new records", $sprite="AzureWebApp")
+      ContainerCollections(mm, "Merge and Match Service", "C#, .NET", "Match existing records, create new records", $sprite="AzureWebApp")
     }
   }
   Deployment_Node_L(srv4, "AWS VM", "Windows Server", ""){
     Deployment_Node_L(ws4, "Web server", "???", ""){
-      Container(der, "Derivation Service", "C#, .NET", "Calculate derived fields", $sprite="AzureWebApp")
+      ContainerCollections(der, "Derivation Service", "C#, .NET", "Calculate derived fields", $sprite="AzureWebApp")
     }
   }
   Deployment_Node_L(srv5, "AWS VM", "Windows Server", ""){
     Deployment_Node_L(ws5, "Web server", "???", ""){
-      Container(cmp, "Compliance Service", "C#, .NET", "Rules engine applying compliance rules", $sprite="AzureWebApp")
+      ContainerCollections(cmp, "Compliance Service", "C#, .NET", "Rules engine applying compliance rules", $sprite="AzureWebApp")
     }
   }
   Deployment_Node_L(srv6, "AWS VM", "Windows Server", ""){
     Deployment_Node_L(ws6, "Web server", "???", ""){
-      Container(syc, "Reports Synchroniser Service", "C#, .NET", "Synchronise reporting data", $sprite="AzureWebApp")
+      Container(syc, "Reports Synchroniser Service", "C#, .NET", "Synchronise reporting data, can only be one instance of this service as it cannot be run in parallel", $sprite="AzureWebApp")
     }
   }
 
@@ -52,11 +63,17 @@ Deployment_Node(aws, "Live", "AWS", "Production system"){
     }
   } 
 
-  Lay_U(srv4, srv1)
-  Lay_U(srv5, srv2)
-  Lay_U(srv6, srv3)  
+  Rel(dep, aws, "Deploys")
 
-  Lay_U(dbsrv, srv6) 
-  Lay_U(qusrv, srv5)    
+  Lay_D(srv1, srv2)
+  Lay_D(srv2, srv3)
+  Lay_D(srv2, srv4)  
+  Lay_D(srv2, srv5)   
+  Lay_D(srv3, srv6) 
+  Lay_D(srv4, srv6)   
+  Lay_D(srv5, srv6)
+  Lay_D(srv6, dbsrv)  
+  Lay_D(srv6, qusrv)  
+
 }
 @enduml
