@@ -1,0 +1,23 @@
+' ##################################
+'  C4 Plant UML extensions
+'  Author: AGS
+'  Date: 17 Sep 2021
+'  Description: Extensions to the 
+'    C4 Plant UML library
+'    - Add collections
+'  See:
+'    https://github.com/plantuml-stdlib/C4-PlantUML
+' ##################################
+
+' Container collections support
+' ##################################
+AddElementTag("container collection", $fontColor=$ELEMENT_FONT_COLOR, $bgColor=$CONTAINER_BG_COLOR)
+!unquoted procedure ContainerCollections($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
+collections "$getContainer($label, $techn, $descr, $sprite)$getProps()" $toStereos("container collection", $tags) as $alias $getLink($link)
+!endprocedure
+
+skinparam collections {
+  Shadowing false
+  BackgroundColor $CONTAINER_BG_COLOR
+  BorderColor white
+}
