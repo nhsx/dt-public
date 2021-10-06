@@ -1,1 +1,3 @@
-# Repository archived and moved to NHSX organisation https://github.com/nhsx/dt-public
+# Digital Transformation Technology Team Public Resources
+
+Resuse and link to public resources here from other places...
