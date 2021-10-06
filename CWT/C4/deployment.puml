@@ -5,7 +5,7 @@
 !include <azure/Storage/AzureQueueStorage>
 !include <C4/C4_Deployment>
 !include <logos/octopus-deploy>
-!include https://raw.githubusercontent.com/asmith-nhsx/public/main/C4_Ext.puml
+!include https://raw.githubusercontent.com/nhsx/dt-public/main/C4_Ext.puml
 
 LAYOUT_LEFT_RIGHT()
 
