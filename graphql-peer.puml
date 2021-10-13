@@ -8,8 +8,7 @@
 !include <azure/Networking/AzureApplicationGateway>
 !include <C4/C4_Container>
 
-title Peer pattern\n\n
-
+caption \n\n<b>Peer pattern
 
 System_Boundary(int, "External Services") {
  Container(api1, "REST API", "REST", $descr="", $sprite="AzureWebApp")

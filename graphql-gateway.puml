@@ -8,7 +8,7 @@
 !include <azure/Networking/AzureApplicationGateway>
 !include <C4/C4_Container>
 
-title Gateway pattern\n\n
+caption \n\n<b>Gateway pattern
 
 System_Boundary(ext, "External Services") {
  Container(gql, "Gateway", "GraphQL", $descr="", $sprite="AzureApplicationGateway")
