@@ -1,0 +1,15 @@
+@startuml
+
+actor Thingamy
+
+cloud nine {
+ component Wotsit 
+ database DooDad
+ artifact Bananas
+}
+
+Thingamy -> Wotsit
+Wotsit --> DooDad
+DooDad -> Bananas
+
+@enduml

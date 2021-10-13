@@ -1,0 +1,37 @@
+@startuml
+!include <azure/AzureCommon>
+!include <azure/Web/AzureWebApp>
+!include <azure/Databases/AzureSqlDatabase>
+!include <azure/Databases/AzureDatabaseForPostgreSQL>
+!include <azure/Storage/AzureQueueStorage>
+!include <azure/Storage/AzureStorage>
+!include <azure/Networking/AzureApplicationGateway>
+!include <C4/C4_Container>
+
+title Gateway pattern\n\n
+
+System_Boundary(ext, "External Services") {
+ Container(gql, "Gateway", "GraphQL", $descr="", $sprite="AzureApplicationGateway")
+}
+System_Boundary(int, "Internal Services") {
+ Container(api1, "API 1", "REST", $descr="", $sprite="AzureWebApp")
+ Container(api2, "API 2", "REST", $descr="", $sprite="AzureWebApp")
+ Container(api3, "API 3", "RPC", $descr="", $sprite="AzureWebApp")
+}
+System_Boundary(data, "Data") {
+ ContainerDb(db1, "RDMS", "Azure SQL", $sprite="AzureSqlDatabase") 
+ ContainerDb(db2, "NoSQL", "Table Storage", $sprite="AzureStorage") 
+ ContainerDb(db3, "RDMS", "Postgres SQL", $sprite="AzureDatabaseForPostgreSQL")  
+}
+gql --> api1
+gql --> api2
+gql --> api3
+
+api1 -[#hidden] api2
+api2 -[#hidden] api3
+
+api1 --> db1
+api2 --> db2
+api3 --> db3
+
+@enduml

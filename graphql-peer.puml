@@ -1,0 +1,35 @@
+@startuml
+!include <azure/AzureCommon>
+!include <azure/Web/AzureWebApp>
+!include <azure/Databases/AzureSqlDatabase>
+!include <azure/Databases/AzureDatabaseForPostgreSQL>
+!include <azure/Storage/AzureQueueStorage>
+!include <azure/Storage/AzureStorage>
+!include <azure/Networking/AzureApplicationGateway>
+!include <C4/C4_Container>
+
+title Peer pattern\n\n
+
+
+System_Boundary(int, "External Services") {
+ Container(api1, "REST API", "REST", $descr="", $sprite="AzureWebApp")
+ Container(api2, "Graph API", "GraphQL", $descr="", $sprite="AzureWebApp")
+ Container(api3, "RPC API", "RPC", $descr="", $sprite="AzureWebApp")
+}
+System_Boundary(data, "Data") {
+ ContainerDb(db1, "RDMS", "Azure SQL", $sprite="AzureSqlDatabase") 
+ ContainerDb(db2, "NoSQL", "Table Storage", $sprite="AzureStorage") 
+ ContainerDb(db3, "RDMS", "Postgres SQL", $sprite="AzureDatabaseForPostgreSQL")  
+}
+
+api1 -[#hidden] api2
+api2 -[#hidden] api3
+
+api1 --> db1
+api2 --> db2
+api3 --> db3
+
+api2 --> db1
+api2 --> db3
+
+@enduml
