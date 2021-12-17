@@ -1,0 +1,16 @@
+@startuml
+left to right direction
+
+component "Trust 1 - Local Cancer System" as lcs1
+component "Trust 2 - Local Cancer System" as lcs2
+component "Trust n - Local Cancer System" as lcsn
+
+component "Cancer Waiting Times Sytem" as cwt
+queue "Event\nStream" as es
+
+lcs1 <--> es
+lcs2 <--> es
+lcsn <--> es
+es <--> cwt
+
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+left to right direction
+
+component "Trust 1 - Local Cancer System" as lcs1
+component "Trust 2 - Local Cancer System" as lcs2
+component "Trust n - Local Cancer System" as lcsn
+
+package  "Cancer Waiting Times Sytem" {
+  component "CWT core" as cwt
+  component "CWT API" as api
+}
+
+lcs1 --> api
+lcs2 --> api
+lcsn --> api
+api --> cwt
+
+@enduml
