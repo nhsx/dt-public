@@ -1,0 +1,16 @@
+@startuml
+| Stage 1 |
+:GP Appointment and Referral;
+-> 28 Day;
+| Stage 2 |
+:First seen by a specialist;
+-> 31 Day;
+| Stage 3 |
+:Diagnosis and decision;
+
+| Stage 4 |
+:First treatment;
+
+| Stage 5 |
+:Subsequent treatment;
+@enduml

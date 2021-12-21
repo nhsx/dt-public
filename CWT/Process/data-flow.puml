@@ -1,0 +1,68 @@
+@startuml
+
+package "Data Flow" {
+  component "Electronic Referral System" as ers
+  component "Patient Administration System" as pas
+  component "Diagnostic Systems" as ds
+  component "Oncology Systems" as os
+  component "Local Cancer System" as lcs
+  component "Cancer Waiting Times System" as cwt
+  component "Trusted Research Environment" as tre
+
+  database db [
+    CWT
+    Database
+  ]
+
+  card rpt [
+  Previews\\
+  ----
+  Reports
+  ]
+  
+  usecase "1" as p1 #Cyan
+  usecase "2-5" as p25a #Cyan
+  usecase "2-5" as p25b #Cyan
+  usecase "2-5" as p25c #Cyan  
+
+  usecase "Provisional" as prov
+  usecase "Final" as final
+  rectangle "NHSE" as nhse
+  rectangle "CCGs/ICSs" as ics
+  rectangle "Cancer Alliances" as ca
+  rectangle "Trusts" as ht
+  rectangle "ex-PHE\n(now NHSD)" as nhsd 
+
+
+
+}
+
+ers -- p1
+p1 ------> lcs
+pas -- p25a
+p25a ----> lcs
+ds -- p25b
+
+p25b --> lcs
+
+os -- p25c
+p25c --> lcs
+
+lcs --> cwt
+
+cwt -> db
+
+db ..> nhsd
+db --> tre
+
+cwt --> rpt
+
+prov . rpt
+final . prov
+
+rpt --> nhse
+rpt --> ics
+rpt --> ca
+rpt --> ht
+
+@enduml

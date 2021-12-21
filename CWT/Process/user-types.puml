@@ -1,0 +1,55 @@
+@startuml
+'left to right direction
+skinparam Shadowing false
+
+package "User Types" {
+
+  person " " as cancer.perf.lead #Gold
+  person " " as cancer.pathway.analyst #LightCyan
+  person " " as cancer.data.manager #Lavender
+
+  rectangle "Cancer Data Manager" as n1
+  rectangle "CA Analyst" as n2  
+  rectangle "NHSD Analyst (ex-PHE)" as n3
+
+  person " " as nhse.analyst #GreenYellow
+  person " " as cancer.alliance.fd.lead #Red  
+  person " " as ca.analyst #DarkOrange 
+
+  rectangle "Cancer Pathway Analyst" as n4
+  rectangle "Cancer Alliance\nFD/RDC Lead" as n5  
+  rectangle "TRE Analyst" as n6
+
+  person " " as ics.analyst #MistyRose
+  person " " as tre.analyst #Plum  
+  person " " as nhsd.analyst #LightGrey
+     
+  rectangle "Cancer Performance Lead" as n7
+  rectangle "NHSE Analyst" as n8  
+  rectangle "ICS/CCG Analyst" as n9  
+
+  cancer.data.manager .[#hidden]. n1
+  ca.analyst .[#hidden]. n2
+  nhsd.analyst .[#hidden]. n3
+
+  n1 -[#hidden]- ca.analyst
+  n4 -[#hidden]- cancer.alliance.fd.lead
+  n5 -[#hidden]- tre.analyst
+
+  cancer.pathway.analyst .[#hidden]. n4
+  cancer.alliance.fd.lead .[#hidden]. n5
+  tre.analyst .[#hidden]. n6
+
+  n2 -[#hidden]- nhsd.analyst
+  n8 -[#hidden]- ics.analyst   
+  n7 -[#hidden]- nhse.analyst
+
+  cancer.perf.lead .[#hidden]. n7
+  nhse.analyst .[#hidden]. n8
+  ics.analyst  .[#hidden]. n9
+
+  n7 -[#hidden] n4
+  n4 -[#hidden] n1
+ 
+}
+@enduml

@@ -12,7 +12,7 @@ System_Ext(pbi, "Power BI", "Reporting and analysis")
 
 Boundary("trust", "Provider", "") {
   Person(tu, "Trust User", "")
-  System_Ext(tdb, "EPR", "Trust Patient Database")
+  System_Ext(tdb, "LCS", "Local Cancer System")
 }
 
 Rel_R(cau, cwt, "Downloads report data", "")

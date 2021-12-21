@@ -1,48 +1,8 @@
 @startuml
 
-
-| Stage 1 |
-:GP Appointment and Referral;
--> 28 Day;
-| Stage 2 |
-:First seen by a specialist;
--> 31 Day;
-| Stage 3 |
-:Diagnosis and decision;
-
-| Stage 4 |
-:First treatment;
-
-| Stage 5 |
-:Subsequent treatment;
+left to right direction
+!include patient-pathway.puml
+!include data-flow.puml
+!include user-types.puml
 
 @enduml
-
-skinparam linetype ortho
-
-package "Patient Pathway" as p {
-
-rectangle "GP Appointment and Referral" as gp
-rectangle "First seen by a specialist" as sp
-rectangle "Diagnosis and decision" as dd
-rectangle "First treatment" as t1
-rectangle "Subsequent treatment" as t2
-
-note as n28
-  28 days
-endnote
-
-note as n31
-  31 days
-endnote
-
-note as n62
-  62 days
-endnote
-
-gp -> sp
-sp -> dd 
-dd -> t1
-t1 -> t2
-
-}
