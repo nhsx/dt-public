@@ -2,4 +2,8 @@
 
 !include patient-pathway.puml
 
+note as n15
+  !%dirpath()
+endnote
+
 @enduml
