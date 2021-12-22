@@ -1,6 +1,6 @@
 @startuml 
 
-!include patient-pathway.puml
+'!include patient-pathway.puml
 
 note as n15
   !%dirpath()
