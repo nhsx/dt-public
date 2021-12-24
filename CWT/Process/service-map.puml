@@ -1,8 +1,10 @@
-@startuml
-
+@startuml 
+skinparam Shadowing false
 left to right direction
-!include https://raw.githubusercontent.com/nhsx/dt-public/main/CWT/Process/patient-pathway.puml
-!include https://raw.githubusercontent.com/nhsx/dt-public/main/CWT/Process/data-flow.puml
-!include https://raw.githubusercontent.com/nhsx/dt-public/main/CWT/Process/user-types.puml
+
+!include data-flow.puml
+!include user-types.puml
+!include patient-pathway.puml
+
 
 @enduml

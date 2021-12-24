@@ -1,44 +1,76 @@
 @startuml
-
+'left to right direction
 package "Data Flow" {
-  component "Electronic Referral System" as ers
+  component "Electronic Referral System" as ers  
+  rectangle "National Screening Service" as nss
+  rectangle "Rapid Diagnostic Centres" as rdc
+  rectangle "Emergency Presentations" as ep
+
+
   component "Patient Administration System" as pas
   component "Diagnostic Systems" as ds
   component "Oncology Systems" as os
-  component "Local Cancer System" as lcs
+  component lcs [
+    <b><u>Local Cancer System
+
+    ====
+    Somerset Cancer Register (SCR)
+    Infoflex 
+  ]
   component "Cancer Waiting Times System" as cwt
   component "Trusted Research Environment" as tre
+  component "Other Bespoke System" as oth
 
   database db [
     CWT
     Database
   ]
 
-  card rpt [
-  Previews\\
+  artifact rpt [
+  Previews
   ----
   Reports
   ]
   
-  usecase "1" as p1 #Cyan
+  usecase "1" as p1a #Cyan
+  usecase "1" as p1b #Cyan
+  usecase "1" as p1c #Cyan
+  usecase "1" as p1d #Cyan   
   usecase "2-5" as p25a #Cyan
   usecase "2-5" as p25b #Cyan
   usecase "2-5" as p25c #Cyan  
 
   usecase "Provisional" as prov
   usecase "Final" as final
+
+  usecase "Validation" as vld2 
+  artifact "Extract" as ex
+  usecase "Upload" as up
+  usecase "Pre-validation" as pvd
+  usecase "Validation" as vld
+
   rectangle "NHSE" as nhse
   rectangle "CCGs/ICSs" as ics
   rectangle "Cancer Alliances" as ca
   rectangle "Trusts" as ht
   rectangle "ex-PHE\n(now NHSD)" as nhsd 
 
-
-
 }
 
-ers -- p1
-p1 ------> lcs
+
+
+ers -- p1a
+p1a ------> lcs
+
+nss -- p1b
+p1b ------> lcs
+
+rdc -- p1c
+p1c ------> lcs
+
+ep -- p1d
+p1d ------> lcs
+
 pas -- p25a
 p25a ----> lcs
 ds -- p25b
@@ -48,9 +80,23 @@ p25b --> lcs
 os -- p25c
 p25c --> lcs
 
-lcs --> cwt
+up --> cwt
+
+lcs --> ex : Automated
+ex -> up
 
 cwt -> db
+
+lcs -> pvd
+pvd -> lcs
+
+oth ..> ex : Manual
+
+lcs <.. vld
+vld .. cwt
+
+vld2 .. cwt
+oth <.. vld2
 
 db ..> nhsd
 db --> tre
@@ -64,5 +110,10 @@ rpt --> nhse
 rpt --> ics
 rpt --> ca
 rpt --> ht
+
+' layout 
+up -[#hidden] vld
+vld2 -[#hidden] ex
+' end-layout
 
 @enduml
