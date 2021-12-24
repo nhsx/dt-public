@@ -8,7 +8,7 @@ jobs:
       - name: Find and Replace
         uses: asmith-nhsx/gha-find-replace@master
         with:
-          find: "^([!]include)"
-          replace: "'$1"
+          find: "!include"
+          replace: "'!include"
           include: "**service-map.puml"
-          regex: true
+          regex: false
