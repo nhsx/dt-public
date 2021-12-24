@@ -1,0 +1,14 @@
+name: My Workflow
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Find and Replace
+        uses: asmith-nhsx/gha-find-replace@master
+        with:
+          find: "^([!]include)"
+          replace: "'$1"
+          include: "**service-map.puml"
+          regex: true
