@@ -10,6 +10,7 @@ def replaceInFile(filepath, pattern, replace):
             print("matched", filepath, pattern, replace)
             data = re.sub(pattern, "\\1" + replace + "/\\2", data)
             with open(filepath, 'w') as file:
+                print("Replaced includes in {}".format(filepath))
                 file.write(data)
         elif (os.path.exists(filepath + ".rep")):
             os.remove(filepath + ".rep")
@@ -23,7 +24,7 @@ def replaceInFiles(root, path, pattern, newbase):
 
 if __name__ == '__main__':
     print(os.getcwd())
-    replaceInFiles(r"./.github/",
-                   r"./.github/**/*.puml",
+    replaceInFiles(r"/home/runner/work/dt-public/dt-public",
+                   r"/home/runner/work/dt-public/dt-public/**/*.puml",
                    "([!]include\s+?)([^<:]+?\n)",
                    "https://raw.githubusercontent.com/nhsx/dt-public/main/")
