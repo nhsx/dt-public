@@ -16,12 +16,25 @@ jobs:
         git config user.name "GitHub Actions Bot"
         git config user.email "dt-public-bot@users.noreply.github.com"
     - name: check for changes
-      run: git status
+      id: check_changes
+      run: |
+        git status
+        if [[ `git status --porcelain` ]]; then
+          echo "Files have been changed."
+          echo "::set-output name=has_changes::true"
+          break
+        else
+          echo "::set-output name=has_changes::false"
+        fi
     - name: stage changed files
+      if: steps.check_changes.outputs.has_changes == true
       run: git add .
     - name: commit changed files
+      if: steps.check_changes.outputs.has_changes == true
       run: git commit -m "Rebasing includes"
     - name: fetch from main
+      if: steps.check_changes.outputs.has_changes == true
       run: git fetch origin main
     - name: push code to main
+      if: steps.check_changes.outputs.has_changes == true
       run: git push origin HEAD:main
