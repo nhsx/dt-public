@@ -22,7 +22,7 @@ def replaceInFiles(root, path, pattern, newbase):
 
 
 if __name__ == '__main__':
-
+    print(os.getcwd())
     replaceInFiles(r"./.github/",
                    r"./.github/**/*.puml",
                    "([!]include\s+?)([^<:]+?\n)",
