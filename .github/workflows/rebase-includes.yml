@@ -22,7 +22,6 @@ jobs:
         if [[ `git status --porcelain` ]]; then
           echo "Files have been changed."
           echo "::set-output name=has_changes::true"
-          break
         else
           echo "::set-output name=has_changes::false"
         fi
