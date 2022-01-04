@@ -23,7 +23,7 @@ def replaceInFiles(root, path, pattern, newbase):
 
 if __name__ == '__main__':
 
-    replaceInFiles(r"G:\My Drive\architecture",
-                   r"G:\My Drive\architecture\**\*.puml",
+    replaceInFiles(r"~/architecture",
+                   r"~/architecture/**/*.puml",
                    "([!]include\s+?)([^<:]+?\n)",
                    "https://raw.githubusercontent.com/nhsx/dt-public/main/")
