@@ -1,6 +1,6 @@
 @startuml 
 
-'!include patient-pathway.puml
+'!include https://raw.githubusercontent.com/nhsx/dt-public/main/CWT/Process/patient-pathway.puml
 
 note as n15
   !%dirpath()
