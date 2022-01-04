@@ -7,14 +7,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Run a one-line script
       run: python ./.github/workflows/rebase-includes.py
     - name: setup git config
       run: |
         # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
         git config user.name "GitHub Actions Bot"
-        git config user.email "<>"
+        git config user.email "dt-public-bot@users.noreply.github.com"
     - name: check for changes
       run: git status
     - name: stage changed files
