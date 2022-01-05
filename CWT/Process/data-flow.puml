@@ -1,5 +1,13 @@
 @startuml
+
+!include <C4/C4_Container>
+!$smallPerson = $person{scale=0.5}
 'left to right direction
+
+skinparam Frame {
+  BorderColor #LightGrey
+}
+
 package "Data Flow" {
   component "Electronic Referral System" as ers  
   rectangle "National Screening Service" as nss
@@ -10,13 +18,14 @@ package "Data Flow" {
   component "Patient Administration System" as pas
   component "Diagnostic Systems" as ds
   component "Oncology Systems" as os
-  component lcs [
-    <b><u>Local Cancer System
-
-    ====
-    Somerset Cancer Register (SCR)
-    Infoflex 
-  ]
+  frame "<color:#Gold><$smallPerson>" {
+    component lcs [
+      <b><u>Local Cancer System  
+      ====
+      Somerset Cancer Register (SCR)
+      Infoflex 
+    ]
+  }
   component "Cancer Waiting Times System" as cwt
   component "Trusted Research Environment" as tre
   component "Other Bespoke System" as oth
