@@ -1,4 +1,4 @@
-@startuml
+@startuml cwt-data-flow
 
 !include <C4/C4_Container>
 !$smallPerson = $person{scale=0.5}
@@ -27,7 +27,7 @@ package "Data Flow" {
       Infoflex 
     ]
   }
-  component "Cancer Waiting Times System" as cwt
+  component "<b><u>Cancer Waiting Times System" as cwt
   frame "<color:#Plum><$smallPerson></color>" as f8 {
     component "Trusted Research Environment" as tre
   } 

@@ -1,0 +1,32 @@
+@startuml dps-component
+hide stereotype
+skinparam component {
+  BackgroundColor<<Future>> #SkyBlue
+  BorderColor<<Future>> #DodgerBlue
+
+  BackgroundColor<<InService>> #LightGreen
+  BorderColor<<InService>> #Green
+}
+skinparam database {
+  BackgroundColor<<Implemented>> #Plum
+  BorderColor<<Implemented>>  #Purple
+}
+
+skinparam arrow {
+  Color<<Meta>> #DodgerBlue
+
+}
+
+
+package "Metadata Zone" {
+  component "Mauro" <<InService>> as mauro
+  component "AWS Glue\n(Metadata)" <<Future>> as awsglue
+  database "Central\nMetastore" <<Implemented>> as metadb
+  component "Metadata governance" <<Future>> as metagov
+  metagov --> metadb<<Meta>>
+  metadb --> mauro<<Meta>>
+  metadb <-- awsglue<<Meta>>
+
+}
+
+@enduml
