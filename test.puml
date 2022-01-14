@@ -237,4 +237,11 @@ Bob : <$demo> Small
 Alice : <$C4person100Big> Big
 
 Alice -> Bob 
+
+!include <awslib/AWSCommon>
+!include <awslib/Database/Database>
+
+Clark : <$Database>
+
+
 @enduml

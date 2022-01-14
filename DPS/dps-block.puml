@@ -1,0 +1,68 @@
+@startwire
+!include <awslib/AWSCommon>
+!include <awslib/Database/Database>
+!define COMPONENT [160x50]
+!define IMPLEMENTATION #Plum
+!define IN_SERVICE #LightGreen
+!define UNDER_REVIEW #Moccasin  
+!define TO_BE_REPLACED #LightCoral
+!define FUTURE_PLAN #SkyBlue
+
+* Metadata_Zone
+    move(180,0)
+    * Mauro COMPONENT IN_SERVICE
+    * AWS_Glue COMPONENT FUTURE_PLAN
+        print("")
+        print("(Metadata)")
+    --
+    move(200,0)
+    * Central_Metastore [150x100] IMPLEMENTATION
+        print("")    
+        print("<$Database,color=Plum>")
+    move(0,-30)
+    * __ [150x1] #Transparent    
+    move(80,-22)
+    * ___ [50x1] #Transparent    
+    --   
+    move(100,0)
+    * Metadata_Governance COMPONENT FUTURE_PLAN
+* Service_Zone
+    * Intozetta COMPONENT FUTURE_PLAN
+    --
+    * Reference_Data_Services COMPONENT UNDER_REVIEW
+    --  
+    * Privitar COMPONENT UNDER_REVIEW
+        print("")       
+        print("(De-ID)")
+    --
+    move(180,0)   
+    * HDRUK COMPONENT IN_SERVICE
+        print("")       
+        print("Innovation Gateway")
+    --
+    * Terminology_Server COMPONENT IN_SERVICE
+* Management_Zone
+    * Wallix COMPONENT UNDER_REVIEW
+    --
+    move(280,0)    
+    * Airflow COMPONENT UNDER_REVIEW
+    --
+    * Databricks_Control_Pane COMPONENT IN_SERVICE
+
+--
+* Data_Governance_And_Identity_Zone [230x1000]
+    move(0,60)
+    * DARS COMPONENT IN_SERVICE
+        print("")    
+        print("(Dynamics 365)")
+
+Metadata_Zone.Mauro <- Metadata_Zone.Central_Metastore
+Metadata_Zone.Central_Metastore <- Metadata_Zone.Metadata_Governance
+Metadata_Zone.AWS_Glue -> Metadata_Zone.Central_Metastore
+Data_Governance_And_Identity_Zone.DARS <-> Metadata_Zone.Central_Metastore #Transparent
+Metadata_Zone.__ <-> Data_Governance_And_Identity_Zone.DARS
+
+Metadata_Zone.Central_Metastore <-- Management_Zone.Airflow
+Metadata_Zone.___ <-- Management_Zone.Databricks_Control_Pane
+
+@endwire

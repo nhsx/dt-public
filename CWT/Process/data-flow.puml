@@ -18,6 +18,9 @@ package "Data Flow" {
   component "Patient Administration System" as pas
   component "Diagnostic Systems" as ds
   component "Oncology Systems" as os
+
+  usecase "Data Collection" as dc
+
   frame "<color:#Lavender><$smallPerson></color><color:#LightCyan><$smallPerson></color>" as f1 {
     usecase "Pre-validation" as pvd
     component lcs [
@@ -28,6 +31,18 @@ package "Data Flow" {
     ]
   }
   component "<b><u>Cancer Waiting Times System" as cwt
+
+  frame "<color:#LightGrey><$smallPerson></color>" as f7 {
+    rectangle "ex-PHE\n(now NHSD)" as nhsd 
+  } 
+
+  component ncras [
+    Other Cancer
+    Reporting Systems
+    ----
+    e.g. NCRAS
+  ]
+
   frame "<color:#Plum><$smallPerson></color>" as f8 {
     component "Trusted Research Environment" as tre
   } 
@@ -73,9 +88,7 @@ package "Data Flow" {
   frame "<color:#Lavender><$smallPerson></color><color:#Gold><$smallPerson></color>" as f6 {
     rectangle "Trusts" as ht
   }  
-  frame "<color:#LightGrey><$smallPerson></color>" as f7 {
-    rectangle "ex-PHE\n(now NHSD)" as nhsd 
-  } 
+
 
   component "CWT Dashboard" as cdb
   artifact "CWT National Reports / Compliance Reports" as frpt
@@ -88,26 +101,29 @@ package "Data Flow" {
 
 
 
-ers -- p1a
-p1a ------> lcs
+ers .. p1a
+p1a ...... dc
 
-nss -- p1b
-p1b ------> lcs
+nss .. p1b
+p1b ...... dc
 
-rdc -- p1c
-p1c ------> lcs
+rdc .. p1c
+p1c ...... dc
 
-ep -- p1d
-p1d ------> lcs
+ep .. p1d
+p1d ...... dc
 
-pas -- p25a
-p25a ----> lcs
-ds -- p25b
+pas .. p25a
+p25a .... dc
+ds .. p25b
 
-p25b --> lcs
+p25b .. dc
 
-os -- p25c
-p25c --> lcs
+os .. p25c
+p25c .. dc
+
+dc --> lcs
+dc --> oth
 
 up --> cwt
 
@@ -120,6 +136,7 @@ lcs -> pvd
 pvd -> lcs
 
 oth ..> ex : Manual
+oth --> ex : Automated
 
 lcs <.. vld
 vld .. cwt
@@ -127,7 +144,8 @@ vld .. cwt
 vld2 .. cwt
 oth <.. vld2
 
-db ..> nhsd
+db ...> nhsd
+nhsd ..> ncras
 db --> tre
 
 cwt --> rpt

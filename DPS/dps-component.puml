@@ -1,4 +1,7 @@
 @startuml dps-component
+left to right direction
+skinparam Shadowing false
+'skinparam linetype ortho
 hide stereotype
 skinparam component {
   BackgroundColor<<Future>> #SkyBlue
@@ -6,27 +9,251 @@ skinparam component {
 
   BackgroundColor<<InService>> #LightGreen
   BorderColor<<InService>> #Green
+
+  BackgroundColor<<UnderReview>> #Moccasin  
+  BorderColor<<UnderReview>> #SandyBrown 
+
+  BackgroundColor<<ToBeReplaced>> #LightCoral  
+  BorderColor<<ToBeReplaced>> #OrangeRed
+
+  BackgroundColor<<Implemented>> #Plum
+  BorderColor<<Implemented>>  #Purple  
 }
+
 skinparam database {
+  BackgroundColor<<InService>> #LightGreen
+  BorderColor<<InService>> #Green
+
   BackgroundColor<<Implemented>> #Plum
   BorderColor<<Implemented>>  #Purple
 }
 
 skinparam arrow {
   Color<<Meta>> #DodgerBlue
-
+  Color<<DataBricks>> #Violet
 }
 
+skinparam actor {
+  BackgroundColor Transparent
+  BorderColor #Black
+}
 
-package "Metadata Zone" {
+frame "Metadata Zone" as metadata {
   component "Mauro" <<InService>> as mauro
-  component "AWS Glue\n(Metadata)" <<Future>> as awsglue
+  component "AWS Glue\n(Metadata)" <<Future>> as awsgluem
   database "Central\nMetastore" <<Implemented>> as metadb
   component "Metadata governance" <<Future>> as metagov
-  metagov --> metadb<<Meta>>
-  metadb --> mauro<<Meta>>
-  metadb <-- awsglue<<Meta>>
+  metagov <-- metadb<<Meta>>
+  mauro <--> metadb<<Meta>>
+  awsgluem <-- metadb<<Meta>>
+}
+
+frame "Service Zone" as services {
+  component "Intozetta" <<Future>> as intoz
+  component "Reference Data Services" <<UnderReview>> as rds
+  component "Privitar (De-ID)" <<UnderReview>> as privitar
+  component "HDRUK\nInnovation\nGateway" <<InService>> as hdruk
+  component "Terminology Server" <<InService>> as termsrv
+  
+  intoz -[#hidden]- rds
+  rds -[#hidden]- privitar
+  privitar -[#hidden]-- hdruk
+  hdruk -[#hidden]- termsrv
 
 }
+
+frame "Management Zone" as management {
+  component "Wallix" <<UnderReview>> as wallix
+  component "Airflow" <<UnderReview>> as airflow
+  component "Databricks\nControl Pane" <<InService>> as dbcp
+
+  'wallix -[#hidden]- airflow
+  airflow -[#hidden] dbcp
+
+}
+
+frame "Submission Zone" as submission {
+  component "DPS Portal" <<UnderReview>> as dpsportal
+  component "DPS Forms" <<InService>> as dpsforms
+  component "Python Code" <<ToBeReplaced>> as python
+  component "AWS Transfer\nFamily (SFTP)" <<InService>> as sftp
+  component "AWS Glue" <<Future>> as awsglue
+  component "AWS DMS" <<InService>> as awsdms
+
+  awsdms -[#hidden] awsglue
+  awsglue -[#hidden] sftp
+  sftp -[#hidden] python
+  python -[#hidden] dpsforms
+  dpsforms -[#hidden] dpsportal
+
+}
+
+frame "Quality & Curation Zone" as quality {
+
+  component "Databricks\nJob Cluster" <<InService>> as dbjobs1
+  component "Databricks\nJob Cluster" <<InService>> as dbjobs2
+  component "Databricks\nJob Cluster" <<InService>> as dbjobs3
+
+  dbjobs1 .> dbjobs2<<DataBricks>>
+  dbjobs2 .> dbjobs3<<DataBricks>>
+}
+
+frame "Analysis Zone" as analysis {
+  component "Databricks\nJob Cluster" <<InService>> as dbjobs4
+  component "Databricks\nInteractive C" <<InService>> as dbia 
+
+  component "Immuta (Refinery Only)" <<Implemented>> as immuta
+
+  component bclink <<Implemented>> [
+    BC|link
+    ===
+    Open Safely
+  ] 
+
+  component "Databricks UI" <<InService>> as dbui
+  component "Gitlab" <<InService>> as gitlab
+
+  component "R-Studio" <<UnderReview>> as rstudio
+  component "Tableau" <<UnderReview>> as tableau
+  component "Hue" <<UnderReview>> as hue  
+  component "Stata" <<UnderReview>> as stata 
+
+  dbia -[#hidden] dbjobs4
+  dbjobs4 -[#hidden] immuta
+
+  dbjobs4 <-- bclink
+  dbia <-- dbui
+
+  dbia <-- tableau
+  dbia <-- hue
+  dbia <-- stata
+
+  stata -[#hidden] hue
+  hue -[#hidden] tableau
+  tableau -[#hidden] rstudio
+  rstudio <- gitlab
+  gitlab -> dbui
+  dbui -[#hidden] bclink
+
+}
+
+frame "Data Governance & Indentity Zone" {
+  component "DARS (Dynamics 365)" <<InService>> as dars
+  component "Keycloak (Identity Provider)" <<UnderReview>> as keycloak
+  component "Forward Proxies" <<InService>> as proxies
+  component "DAE Landing Page" <<Implemented>> as dae
+  component "NHS mail MFA/NHS Identity" <<InService>> as nhsid
+  component "Data Escrow" <<InService>> as escrow
+  component "Data Egress Proxy" <<InService>> as deproxy
+
+  deproxy -[#hidden] escrow
+  escrow -[#hidden] nhsid
+  nhsid -[#hidden] dae
+  dae -> proxies
+  proxies -[#hidden] keycloak
+  keycloak -[#hidden] dars
+
+}
+
+frame "Data Access Zone" {
+  component "Guacamole" <<UnderReview>> as guacamole
+  component "AWS Workspaces" <<Implemented>> as awswks
+  component "S3" <<ToBeReplaced>> as s3c
+
+  s3c -[#hidden] awswks
+  awswks -[#hidden] guacamole
+
+}
+
+frame "Data Visualization Zone" {
+  component "S3" <<UnderReview>> as s3d
+  component "AWS Athena" <<UnderReview>> as athenad  
+  component "Tableau" <<UnderReview>> as tableaud
+
+  s3d --> athenad
+  athenad --> tableaud
+
+  component "S3" <<UnderReview>> as s3e
+  component "AWS Athena" <<UnderReview>> as athenae  
+  component "Tableau" <<UnderReview>> as tableaue
+
+  s3e --> athenae
+  athenae --> tableaue  
+
+}
+
+database "S3" <<InService>> as s3a
+database "S3" <<InService>> as s3b
+
+actor "Analysis Users" as analysts
+actor "Trusted Users" as trusteduser
+actor "Anonymous Users" as anonusers
+actor "Safe Outputs Checker" as checkers
+actor "Platform Engineers" as engineers
+actor "Data Managers" as datamgrs
+
+engineers ---> wallix
+datamgrs ----> airflow
+'datamgrs --[norank]--> dbjobs1
+
+dpsportal --> s3a
+dpsforms --> s3a
+python --> s3a
+sftp --> s3a
+awsglue --> s3a
+awsdms --> s3a
+
+s3a --> dbjobs1
+s3a --> dbjobs3
+s3a --> dbjobs2
+
+dbjobs3 --> s3b
+dbjobs2 --> s3b
+dbjobs1 --> s3b
+
+s3b --> dbia
+
+dbui <--- dae
+gitlab <--- dae
+rstudio <--- dae
+tableau <--- dae
+hue <--- dae
+stata <--- dae
+
+dae <--- awswks
+dae <--- guacamole
+
+proxies <-[norank]- awswks
+
+keycloak <-- awswks
+keycloak <-- guacamole
+
+escrow --> s3c
+deproxy --> s3d
+deproxy --> s3e
+
+guacamole --> analysts
+awswks --> analysts
+s3c --> analysts
+
+tableaud --> trusteduser
+tableaue --> anonusers
+
+checkers --> escrow
+
+'airflow <-> metadb<<Meta>>
+'dbcp -> metadb<<Meta>>
+
+'dbcp ..> dbjobs1<<DataBricks>> 
+'dbcp ..> dbia<<DataBricks>>
+
+'submission <.left. airflow
+'quality <.left. airflow
+'analysis <.left. airflow
+
+'dars <-> metadb<<Meta>>
+'metadb --[norank]-> keycloak<<Meta>>
+
+'airflow ... submission
 
 @enduml
