@@ -31,6 +31,7 @@ skinparam database {
 skinparam arrow {
   Color<<Meta>> #DodgerBlue
   Color<<DataBricks>> #Violet
+  Color<<Orchestrate>> #OrangeRed  
 }
 
 skinparam actor {
@@ -38,39 +39,13 @@ skinparam actor {
   BorderColor #Black
 }
 
-frame "Metadata Zone" as metadata {
-  component "Mauro" <<InService>> as mauro
-  component "AWS Glue\n(Metadata)" <<Future>> as awsgluem
-  database "Central\nMetastore" <<Implemented>> as metadb
-  component "Metadata governance" <<Future>> as metagov
-  metagov <-- metadb<<Meta>>
-  mauro <--> metadb<<Meta>>
-  awsgluem <-- metadb<<Meta>>
+skinparam usecase {
+  BackgroundColor<<Orchestrate>> Transparent
+  BorderColor<<Orchestrate>> #Transparent
+  FontColor<<Orchestrate>> #OrangeRed 
 }
 
-frame "Service Zone" as services {
-  component "Intozetta" <<Future>> as intoz
-  component "Reference Data Services" <<UnderReview>> as rds
-  component "Privitar (De-ID)" <<UnderReview>> as privitar
-  component "HDRUK\nInnovation\nGateway" <<InService>> as hdruk
-  component "Terminology Server" <<InService>> as termsrv
-  
-  intoz -[#hidden]- rds
-  rds -[#hidden]- privitar
-  privitar -[#hidden]-- hdruk
-  hdruk -[#hidden]- termsrv
-
-}
-
-frame "Management Zone" as management {
-  component "Wallix" <<UnderReview>> as wallix
-  component "Airflow" <<UnderReview>> as airflow
-  component "Databricks\nControl Pane" <<InService>> as dbcp
-
-  'wallix -[#hidden]- airflow
-  airflow -[#hidden] dbcp
-
-}
+package "L" {
 
 frame "Submission Zone" as submission {
   component "DPS Portal" <<UnderReview>> as dpsportal
@@ -79,24 +54,19 @@ frame "Submission Zone" as submission {
   component "AWS Transfer\nFamily (SFTP)" <<InService>> as sftp
   component "AWS Glue" <<Future>> as awsglue
   component "AWS DMS" <<InService>> as awsdms
-
-  awsdms -[#hidden] awsglue
-  awsglue -[#hidden] sftp
-  sftp -[#hidden] python
-  python -[#hidden] dpsforms
-  dpsforms -[#hidden] dpsportal
-
 }
 
 frame "Quality & Curation Zone" as quality {
+  together {
+  component "Databricks\nJob Cluster 1" <<InService>> as dbjobs1
+  component "Databricks\nJob Cluster 2" <<InService>> as dbjobs2
+  }
+  component "Databricks\nJob Cluster 3" <<InService>> as dbjobs3 
 
-  component "Databricks\nJob Cluster" <<InService>> as dbjobs1
-  component "Databricks\nJob Cluster" <<InService>> as dbjobs2
-  component "Databricks\nJob Cluster" <<InService>> as dbjobs3
-
-  dbjobs1 .> dbjobs2<<DataBricks>>
-  dbjobs2 .> dbjobs3<<DataBricks>>
+  dbjobs1 .right.> dbjobs2<<DataBricks>>
+  dbjobs2 .right.> dbjobs3<<DataBricks>>
 }
+
 
 frame "Analysis Zone" as analysis {
   component "Databricks\nJob Cluster" <<InService>> as dbjobs4
@@ -110,30 +80,29 @@ frame "Analysis Zone" as analysis {
     Open Safely
   ] 
 
-  component "Databricks UI" <<InService>> as dbui
-  component "Gitlab" <<InService>> as gitlab
-
-  component "R-Studio" <<UnderReview>> as rstudio
+  together {
   component "Tableau" <<UnderReview>> as tableau
   component "Hue" <<UnderReview>> as hue  
   component "Stata" <<UnderReview>> as stata 
+  }
+
+  together {
+  component "R-Studio" <<UnderReview>> as rstudio     
+  component "Databricks UI" <<InService>> as dbui
+  component "Gitlab" <<InService>> as gitlab
+  }
 
   dbia -[#hidden] dbjobs4
   dbjobs4 -[#hidden] immuta
 
-  dbjobs4 <-- bclink
-  dbia <-- dbui
-
   dbia <-- tableau
   dbia <-- hue
   dbia <-- stata
+  dbjobs4 <-- bclink
+  dbia <-- dbui
 
-  stata -[#hidden] hue
-  hue -[#hidden] tableau
-  tableau -[#hidden] rstudio
-  rstudio <- gitlab
-  gitlab -> dbui
-  dbui -[#hidden] bclink
+  gitlab -right-> dbui
+  gitlab -left-> rstudio
 
 }
 
@@ -145,24 +114,6 @@ frame "Data Governance & Indentity Zone" {
   component "NHS mail MFA/NHS Identity" <<InService>> as nhsid
   component "Data Escrow" <<InService>> as escrow
   component "Data Egress Proxy" <<InService>> as deproxy
-
-  deproxy -[#hidden] escrow
-  escrow -[#hidden] nhsid
-  nhsid -[#hidden] dae
-  dae -> proxies
-  proxies -[#hidden] keycloak
-  keycloak -[#hidden] dars
-
-}
-
-frame "Data Access Zone" {
-  component "Guacamole" <<UnderReview>> as guacamole
-  component "AWS Workspaces" <<Implemented>> as awswks
-  component "S3" <<ToBeReplaced>> as s3c
-
-  s3c -[#hidden] awswks
-  awswks -[#hidden] guacamole
-
 }
 
 frame "Data Visualization Zone" {
@@ -182,19 +133,26 @@ frame "Data Visualization Zone" {
 
 }
 
+frame "Data Access Zone" {
+  component "Guacamole" <<UnderReview>> as guacamole
+  component "AWS Workspaces" <<Implemented>> as awswks
+  component "S3" <<ToBeReplaced>> as s3c
+}
+
 database "S3" <<InService>> as s3a
 database "S3" <<InService>> as s3b
 
+together {
+actor "Anonymous Users" as anonusers  
 actor "Analysis Users" as analysts
 actor "Trusted Users" as trusteduser
-actor "Anonymous Users" as anonusers
+}
+
 actor "Safe Outputs Checker" as checkers
-actor "Platform Engineers" as engineers
+
 actor "Data Managers" as datamgrs
 
-engineers ---> wallix
-datamgrs ----> airflow
-'datamgrs --[norank]--> dbjobs1
+datamgrs ----> dbjobs3
 
 dpsportal --> s3a
 dpsforms --> s3a
@@ -204,12 +162,12 @@ awsglue --> s3a
 awsdms --> s3a
 
 s3a --> dbjobs1
-s3a --> dbjobs3
 s3a --> dbjobs2
+s3a --> dbjobs3
 
-dbjobs3 --> s3b
-dbjobs2 --> s3b
 dbjobs1 --> s3b
+dbjobs2 --> s3b
+dbjobs3 --> s3b
 
 s3b --> dbia
 
@@ -220,13 +178,11 @@ tableau <--- dae
 hue <--- dae
 stata <--- dae
 
-dae <--- awswks
-dae <--- guacamole
-
-proxies <-[norank]- awswks
-
-keycloak <-- awswks
-keycloak <-- guacamole
+dae <---- awswks
+dae <--[norank]-- guacamole
+proxies <---- awswks
+keycloak <---- awswks
+keycloak <---- guacamole
 
 escrow --> s3c
 deproxy --> s3d
@@ -240,20 +196,72 @@ tableaud --> trusteduser
 tableaue --> anonusers
 
 checkers --> escrow
+}
 
-'airflow <-> metadb<<Meta>>
-'dbcp -> metadb<<Meta>>
+frame "Management Zone" as management {
 
-'dbcp ..> dbjobs1<<DataBricks>> 
-'dbcp ..> dbia<<DataBricks>>
+  component "Wallix" <<UnderReview>> as wallix
+  together {
+  component "Airflow" <<UnderReview>> as airflow
+  component "Databricks\nControl Pane" <<InService>> as dbcp
+  }
+  usecase "Orchestrates" <<Orchestrate>> as orch    
+  wallix -[#hidden]- airflow
+  airflow .. orch<<Orchestrate>>
+  airflow -[#hidden]- dbcp
+}
 
-'submission <.left. airflow
-'quality <.left. airflow
-'analysis <.left. airflow
+frame "Service Zone" as services {
+  component "Intozetta" <<Future>> as intoz
+  component "Reference Data Services" <<UnderReview>> as rds
+  component "Privitar (De-ID)" <<UnderReview>> as privitar
+  component "HDRUK\nInnovation\nGateway" <<InService>> as hdruk
+  component "Terminology Server" <<InService>> as termsrv
+  
+  intoz -[#hidden]- rds
+  rds -[#hidden]- privitar
+  privitar -[#hidden]- hdruk
+  hdruk -[#hidden]- termsrv
 
-'dars <-> metadb<<Meta>>
-'metadb --[norank]-> keycloak<<Meta>>
+}
 
-'airflow ... submission
+frame "Metadata Zone" as metadata {
+  component "Mauro" <<InService>> as mauro
+  component "AWS Glue\n(Metadata)" <<Future>> as awsgluem
+  database "Central\nMetastore" <<Implemented>> as metadb
+  component "Metadata governance" <<Future>> as metagov
+  metagov <-up- metadb<<Meta>>
+  mauro <--> metadb<<Meta>>
+  awsgluem <-- metadb<<Meta>>
+}
+
+actor "Platform Engineers" as engineers
+
+engineers --> wallix
+datamgrs --> airflow
+
+dbcp ..> dbjobs1<<DataBricks>>
+dbcp ...> dbia<<DataBricks>>
+
+orch ..> submission<<Orchestrate>>
+orch ..> quality<<Orchestrate>>
+orch ..> analysis<<Orchestrate>>
+
+hdruk <--- bclink
+rds --> s3a
+privitar --> s3a
+termsrv <-- proxies
+
+airflow <-- metadb
+dbcp --> metadb
+immuta <-- metadb
+metadb --> dars
+metadb -[norank]-> keycloak
+
 
 @enduml
+
+
+
+
+
