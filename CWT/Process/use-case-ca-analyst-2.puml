@@ -1,0 +1,28 @@
+@startuml use-case-ca-analyst-2
+package "P3, 25.01.22" {
+
+package "Providers 1..n" {
+database "Provider Cancer System\n(SCR)" as db1
+artifact "Extract" as ex1
+}
+
+actor "CA Analyst" as ca2 #DarkOrange
+usecase "Creates Tableau Reports" as ctr
+
+database "Arden & GEM\nPTL" as ptl
+usecase "Psuedo-anonymisation" as pan 
+database "Data warehouse" as dwh2
+
+artifact "Tableau Dashboard" as tdb 
+
+tdb <- ctr
+ctr <- dwh2
+dwh2 <- pan : SFTP
+pan <- ptl
+ptl <- ex1 : SFTP
+ex1 <- db1 : SQL script
+
+ca2 --> ctr
+
+}
+@enduml

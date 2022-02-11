@@ -1,0 +1,26 @@
+@startuml use-case-ca-perf-manager
+
+package "P7-26.01.22" {
+
+usecase "Download" as dwn7
+artifact "CWT CSV Extract" as csv7
+usecase "Create and run reports" as run7
+artifact "Power BI Reports" as pbi7
+database "SQL Server Database" as db7
+usecase "Import" as imp7
+component "CWT System" as cwt7
+actor "Cancer Performance\nIntelligence Manager (CA)" as na7 #Gold
+
+pbi7 <- run7
+run7 <- db7
+db7 <- imp7
+imp7 <- csv7
+csv7 <- dwn7
+dwn7 <- cwt7
+
+na7 --> dwn7 : provider and\ncommissioner extracts
+na7 --> run7 : \n\nM-Query (for PowerBI)
+na7 --> imp7
+
+}
+@enduml

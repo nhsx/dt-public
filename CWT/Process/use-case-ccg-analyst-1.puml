@@ -1,0 +1,24 @@
+@startuml use-case-ccg-analyst-1
+
+package "P4, 26.01.22" {
+component "CWT system" as cwt2
+usecase "Run monthly reports" as prp
+artifact "CWT Report" as rpt3
+actor "CCG Analyst" as ccg #MistyRose
+usecase "Collate exception reports\ninto one folder" as md3
+collections "Report files" as rpf1
+usecase "Refresh report" as rfr
+artifact "Excel report" as xlr
+
+xlr <- rfr
+rfr <- rpf1 : combines files into one table and adds calculated fields
+rpf1 <- md3
+md3 <- rpt3
+rpt3 <- prp
+prp <- cwt2
+ccg --> prp : download per provider
+ccg --> md3 : manual\nto local files
+ccg --> rfr : \n\n\nPowerQuery
+
+}
+@enduml
