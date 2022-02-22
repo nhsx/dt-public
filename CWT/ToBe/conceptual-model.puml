@@ -1,0 +1,108 @@
+@startuml cwt-tobe-conceptual-model
+'left to right direction
+
+hide stereotype
+skinparam usecase {
+  BackgroundColor<<New>> #SkyBlue
+  BorderColor<<New>> #DodgerBlue
+
+  BackgroundColor<<Deprecated>> #LightCoral  
+  BorderColor<<Deprecated>> #OrangeRed
+
+  BackgroundColor<<Future>> #Moccasin  
+  BorderColor<<Future>> #SandyBrown  
+}
+
+skinparam component {
+  BackgroundColor<<New>> #SkyBlue
+  BorderColor<<New>> #DodgerBlue
+
+  BackgroundColor<<Deprecated>> #LightCoral  
+  BorderColor<<Deprecated>> #OrangeRed
+}
+
+skinparam queue {
+  BackgroundColor<<Future>> #Moccasin  
+  BorderColor<<Future>> #SandyBrown    
+}
+
+skinparam arrow {
+  Color<<Deprecated>> #OrangeRed 
+}
+
+skinparam rectangle {
+  BackgroundColor<<New>> #SkyBlue
+  BorderColor<<New>> #DodgerBlue
+
+  BackgroundColor<<Deprecated>> #LightCoral  
+  BorderColor<<Deprecated>> #OrangeRed
+
+  BackgroundColor<<Future>> #Moccasin  
+  BorderColor<<Future>> #SandyBrown    
+}
+
+component "Local Cancer System" as lcs
+queue "Event Stream" <<Future>> as es
+artifact "CWT Extract" as file
+
+usecase "0. Manual Upload" <<Deprecated>> as mup
+usecase "1. Automated Upload" <<New>> as aup
+usecase "2. Direct Integration" <<New>> as di
+usecase "3. Eventing" <<Future>> as ev
+
+package "CWT System" {
+
+component "CWT Portal" as cwt
+component "Command API" <<New>> as capi
+database "CWT Database" as db
+component "Query API" <<New>>   as qapi
+
+cwt -- db
+capi -- db : Match and merge\nDerivations 
+db -- qapi
+
+}
+
+component "Open Analytics" <<New>> as oa
+
+artifact "Dashboards" as dbs
+artifact "Reports" as rpt
+
+note as n1
+  pseudo-anonymised
+  record level data
+endnote
+
+note as n2
+  Standards Compliance
+endnote
+
+lcs .. file
+file .. mup<<Deprecated>>
+mup .. cwt<<Deprecated>>
+
+file -- aup
+aup -- capi
+
+lcs --- di
+di -- capi
+
+lcs --- ev
+ev -- es
+capi - es
+
+qapi -- oa : ELT
+oa -- dbs
+oa -- rpt
+
+qapi - n1
+oa - n2
+
+legend right
+|= Key |
+|<#LightCoral>Deprecated|
+|<#SkyBlue>New|
+|<#SandyBrown>Future|
+endlegend
+
+@enduml
