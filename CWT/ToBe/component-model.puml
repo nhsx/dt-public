@@ -1,6 +1,6 @@
 @startuml cwt-tobe-component-model
 
-left to right direction
+'left to right direction
 
 queue es [
   Event Stream
@@ -46,7 +46,7 @@ component log [
 ]
 database db [
   Database
-  ===
+  === 
 
   SQL Server
 ]

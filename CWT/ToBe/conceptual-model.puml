@@ -50,23 +50,28 @@ usecase "1. Automated Upload" <<New>> as aup
 usecase "2. Direct Integration" <<New>> as di
 usecase "3. Eventing" <<Future>> as ev
 
-package "CWT System" {
+package "CWT Data Collection" {
 
 component "CWT Portal" as cwt
 component "Command API" <<New>> as capi
 database "CWT Database" as db
 component "Query API" <<New>>   as qapi
 
-cwt -- db
+cwt - capi
 capi -- db : Match and merge\nDerivations 
 db -- qapi
 
 }
 
-component "Open Analytics" <<New>> as oa
+package "CWT Reports and Analysis" {
 
+
+component "Open Analytics" <<New>> as oa
+database "Data warehouse" as dw
+component "Report API" <<New>> as ra
 artifact "Dashboards" as dbs
 artifact "Reports" as rpt
+}
 
 note as n1
   pseudo-anonymised
@@ -75,6 +80,11 @@ endnote
 
 note as n2
   Standards Compliance
+endnote
+
+note as n3
+  Aggregated data 
+  incl. demographics
 endnote
 
 lcs .. file
@@ -92,11 +102,16 @@ ev -- es
 capi - es
 
 qapi -- oa : ELT
-oa -- dbs
-oa -- rpt
+oa -- dw
+
+dw -- ra
+
+dw -left- dbs
+dw -right- rpt
 
 qapi - n1
 oa - n2
+ra - n3
 
 legend right
 |= Key |
