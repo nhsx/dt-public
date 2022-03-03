@@ -55,22 +55,22 @@ package "CWT Data Collection" {
 component "CWT Portal" as cwt
 component "Command API" <<New>> as capi
 database "CWT Database" as db
-component "Query API" <<New>>   as qapi
+component "Export API" <<New>>   as eapi
 
 cwt - capi
 capi -- db : Match and merge\nDerivations 
-db -- qapi
+db -- eapi
 
 }
 
 package "CWT Reports and Analysis" {
 
-
 component "Open Analytics" <<New>> as oa
 database "Data warehouse" as dw
-component "Report API" <<New>> as ra
+component "Query API" <<New>> as qapi
 artifact "Dashboards" as dbs
 artifact "Reports" as rpt
+
 }
 
 note as n1
@@ -94,24 +94,24 @@ mup .. cwt<<Deprecated>>
 file -- aup
 aup -- capi
 
-lcs --- di
+lcs --- di : batch mode/\nreal-time
 di -- capi
 
-lcs --- ev
+lcs --- ev : real-time
 ev -- es
 capi - es
 
-qapi -- oa : ELT
+eapi -- oa : ELT
 oa -- dw
 
-dw -- ra
+dw -- qapi
 
-dw -left- dbs
-dw -right- rpt
+qapi -- dbs
+qapi -- rpt
 
-qapi - n1
+eapi - n1
 oa - n2
-ra - n3
+qapi - n3
 
 legend right
 |= Key |
