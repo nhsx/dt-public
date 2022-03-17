@@ -1,0 +1,9 @@
+@startuml cwt-data-flow-map
+skinparam Shadowing false
+left to right direction
+  
+!include user-types.puml
+!include data-flow.puml
+!include patient-pathway.puml
+
+@enduml

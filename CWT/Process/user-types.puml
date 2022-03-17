@@ -6,34 +6,37 @@
 HIDE_STEREOTYPE()
 SHOW_PERSON_PORTRAIT()
 
+UpdateElementStyle(person, $fontColor="black")
+
 skinparam Shadowing false
 
+package "Data Uploader" as du {
 
-package "User Types" {
-
-  Person("cancer.perf.lead", "Cancer Performance Lead", "") #Gold   
   Person("cancer.pathway.analyst", "Cancer Pathway Analyst", "") #LightCyan
   Person("cancer.data.manager", "Cancer Data Manager", "") #Lavender
 
-  Person("nhse.analyst", "NHSE Analyst", "") #GreenYellow   
-  Person("cancer.alliance.fd.lead", "Cancer Alliance FD/RDC Lead", "") #Red
-  Person("ca.analyst", "CA Analyst", "") #DarkOrange
+}
 
+package "Data Analyst" as da {
+  Person("ca.analyst", "CA Analyst", "") #DarkOrange
   Person("ics.analyst", "ICS/CCG Analyst", "") #MistyRose   
   Person("tre.analyst", "TRE Analyst", "") #Plum
   Person("nhsd.analyst", "NHSD Analyst (ex-PHE)", "") #LightGrey
 
-  cancer.perf.lead .[#hidden] cancer.pathway.analyst
-  cancer.pathway.analyst .[#hidden] cancer.data.manager
-
-  cancer.perf.lead .[#hidden]. nhse.analyst
-  cancer.pathway.analyst .[#hidden].  cancer.alliance.fd.lead 
-  cancer.data.manager .[#hidden].  ca.analyst
-
-  nhse.analyst .[#hidden]. ics.analyst
-  cancer.alliance.fd.lead .[#hidden]. tre.analyst
-  ca.analyst .[#hidden]. nhsd.analyst
-
+  ca.analyst -[#hidden] ics.analyst
+  ics.analyst -[#hidden] tre.analyst
+  tre.analyst -[#hidden] nhsd.analyst
 }
+
+package "Secondary Data Consumer" as dc {
+  Person("cancer.perf.lead", "Cancer Performance Lead", "") #Gold   
+  Person("cancer.alliance.fd.lead", "Cancer Alliance FD/RDC Lead", "") #Red
+}
+
+Person("nhse.analyst", "NHSE Analyst", "") #GreenYellow   
+
+du -[#hidden]- da
+da -[#hidden]- dc
+cancer.alliance.fd.lead -[#hidden]- nhse.analyst
 
 @enduml

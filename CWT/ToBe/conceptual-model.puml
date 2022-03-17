@@ -6,8 +6,8 @@ skinparam usecase {
   BackgroundColor<<New>> #SkyBlue
   BorderColor<<New>> #DodgerBlue
 
-  BackgroundColor<<Deprecated>> #LightCoral  
-  BorderColor<<Deprecated>> #OrangeRed
+  BackgroundColor<<Legacy>> #LightCoral  
+  BorderColor<<Legacy>> #OrangeRed
 
   BackgroundColor<<Future>> #Moccasin  
   BorderColor<<Future>> #SandyBrown  
@@ -17,8 +17,8 @@ skinparam component {
   BackgroundColor<<New>> #SkyBlue
   BorderColor<<New>> #DodgerBlue
 
-  BackgroundColor<<Deprecated>> #LightCoral  
-  BorderColor<<Deprecated>> #OrangeRed
+  BackgroundColor<<Legacy>> #LightCoral  
+  BorderColor<<Legacy>> #OrangeRed
 }
 
 skinparam queue {
@@ -27,28 +27,27 @@ skinparam queue {
 }
 
 skinparam arrow {
-  Color<<Deprecated>> #OrangeRed 
+  Color<<Legacy>> #OrangeRed 
 }
 
 skinparam rectangle {
   BackgroundColor<<New>> #SkyBlue
   BorderColor<<New>> #DodgerBlue
 
-  BackgroundColor<<Deprecated>> #LightCoral  
-  BorderColor<<Deprecated>> #OrangeRed
+  BackgroundColor<<Legacy>> #LightCoral  
+  BorderColor<<Legacy>> #OrangeRed
 
   BackgroundColor<<Future>> #Moccasin  
   BorderColor<<Future>> #SandyBrown    
 }
 
 component "Local Cancer System" as lcs
-queue "Event Stream" <<Future>> as es
+
 artifact "CWT Extract" as file
 
-usecase "0. Manual Upload" <<Deprecated>> as mup
+usecase "0. Manual Upload" <<Legacy>> as mup
 usecase "1. Automated Upload" <<New>> as aup
 usecase "2. Direct Integration" <<New>> as di
-usecase "3. Eventing" <<Future>> as ev
 
 package "CWT Data Collection" {
 
@@ -57,10 +56,18 @@ component "Command API" <<New>> as capi
 database "CWT Database" as db
 component "Export API" <<New>>   as eapi
 
-cwt - capi
-capi -- db : Match and merge\nDerivations 
-db -- eapi
+collections "Cache" as cache
 
+note as n4
+ Match and merge,
+ Derivations 
+endnote
+
+cwt - capi
+capi -- n4
+n4 -- db 
+db -- eapi
+cache - eapi
 }
 
 package "CWT Reports and Analysis" {
@@ -88,18 +95,14 @@ note as n3
 endnote
 
 lcs .. file
-file .. mup<<Deprecated>>
-mup .. cwt<<Deprecated>>
+file .. mup<<Legacy>>
+mup .. cwt<<Legacy>>
 
 file -- aup
 aup -- capi
 
-lcs --- di : batch mode/\nreal-time
+lcs --- di : batch mode\n(daily, intra-day)
 di -- capi
-
-lcs --- ev : real-time
-ev -- es
-capi - es
 
 eapi -- oa : ELT
 oa -- dw
@@ -113,11 +116,12 @@ eapi - n1
 oa - n2
 qapi - n3
 
+lcs <... capi : validation\nnotifications 
+
 legend right
 |= Key |
-|<#LightCoral>Deprecated|
-|<#SkyBlue>New|
-|<#SandyBrown>Future|
+|<#LightCoral> Legacy |
+|<#SkyBlue> New |
 endlegend
 
 @enduml
