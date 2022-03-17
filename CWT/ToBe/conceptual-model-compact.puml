@@ -1,0 +1,138 @@
+@startuml cwt-tobe-conceptual-model-compact
+'left to right direction
+
+hide stereotype
+skinparam usecase {
+  BackgroundColor<<New>> #SkyBlue
+  BorderColor<<New>> #DodgerBlue
+
+  BackgroundColor<<Legacy>> #LightCoral  
+  BorderColor<<Legacy>> #OrangeRed
+
+  BackgroundColor<<Future>> #Moccasin  
+  BorderColor<<Future>> #SandyBrown  
+}
+
+skinparam component {
+  BackgroundColor<<New>> #SkyBlue
+  BorderColor<<New>> #DodgerBlue
+
+  BackgroundColor<<Legacy>> #LightCoral  
+  BorderColor<<Legacy>> #OrangeRed
+}
+
+skinparam queue {
+  BackgroundColor<<Future>> #Moccasin  
+  BorderColor<<Future>> #SandyBrown    
+}
+
+skinparam arrow {
+  Color<<Legacy>> #OrangeRed 
+}
+
+skinparam rectangle {
+  BackgroundColor<<New>> #SkyBlue
+  BorderColor<<New>> #DodgerBlue
+
+  BackgroundColor<<Legacy>> #LightCoral  
+  BorderColor<<Legacy>> #OrangeRed
+
+  BackgroundColor<<Future>> #Moccasin  
+  BorderColor<<Future>> #SandyBrown    
+}
+
+component "Local Cancer System" as lcs
+
+artifact "CWT Extract" as file
+
+usecase "0. Manual Upload" <<Legacy>> as mup
+usecase "1. Automated Upload" <<New>> as aup
+usecase "2. Direct Integration" <<New>> as di
+
+package "CWT Data Collection" {
+
+component "CWT Portal" as cwt
+
+component "Command API" <<New>> as capi
+database "CWT Database" as db
+component "Export API" <<New>>   as eapi
+
+collections "Cache" as cache
+
+note as n4
+ Match and merge,
+ Derivations 
+endnote
+
+cwt - capi
+capi -- n4
+n4 -- db 
+db -- eapi
+cache - eapi
+
+}
+
+package "CWT Reports and Analysis" {
+
+component "Open Analytics" <<New>> as oa
+database "Data warehouse" as dw
+component "Query API" <<New>> as qapi
+artifact "Dashboards" as dbs
+artifact "Reports" as rpt
+
+note as n3
+  aggregated data 
+  incl. demographics
+endnote
+
+}
+
+note as n1
+  pseudo-anonymised
+  record level data
+endnote
+
+note as n2
+  standards compliance
+endnote
+
+lcs .. file
+file .. mup<<Legacy>>
+mup .. cwt<<Legacy>>
+
+file -- aup
+aup -- capi
+
+lcs --- di : batch mode\n(daily, intra-day)
+di -- capi
+
+usecase  elt [
+  ELT
+]
+
+eapi - elt
+elt - oa
+oa -up- dw
+
+dw -up- qapi
+
+qapi -left- dbs
+qapi -right- rpt
+
+eapi -- n1
+oa -- n2
+qapi -- n3
+
+lcs <... capi : validation\nnotifications 
+
+'layout
+'aup . di
+'endlayout
+
+legend right
+|= Key |
+|<#LightCoral> Legacy |
+|<#SkyBlue> New |
+endlegend
+
+@enduml
