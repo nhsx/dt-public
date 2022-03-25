@@ -53,7 +53,7 @@ package "CWT Data Collection" {
 
 component "CWT Portal" as cwt
 
-component "Command API" <<New>> as capi
+component "Collection API" <<New>> as capi
 database "CWT Database" as db
 component "Export API" <<New>>   as eapi
 

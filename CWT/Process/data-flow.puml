@@ -1,9 +1,9 @@
 @startuml cwt-data-flow
 
-!include <C4/C4_Container>
+'!include <C4/C4_Container>
 !$smallPerson = $person{scale=0.5}
 'left to right direction
-'skinparam Shadowing false
+skinparam Shadowing false
 skinparam Frame {
   BorderColor #Transparent
 }

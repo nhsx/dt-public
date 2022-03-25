@@ -4,7 +4,7 @@
 !include <azure/Databases/AzureSqlDatabase>
 !include <azure/Storage/AzureQueueStorage>
 !include <C4/C4_Container>
-
+left to right direction
 AddElementTag("queue", $bgColor="white", $fontColor=$PERSON_BG_COLOR)
 AddRelTag("message", $lineStyle=DashedLine())
 Person(tu, "Trust User", "")
@@ -15,8 +15,8 @@ System_Boundary(cwt, "CWT System") {
   Container(der, "Derivation Service", "C#, .NET", $descr="Calculate derived fields", $sprite="AzureWebApp")
   Container(cmp, "Compliance Service", "C#, .NET", $descr="Rules engine applying compliance rules", $sprite="AzureWebApp")
   Container(syc, "Reports Synchroniser Service", "C#, .NET", $descr="Synchronise reporting data", $sprite="AzureWebApp")
-  ContainerDb(db, "CWT Database", "MS SQL Server", $sprite="AzureSqlDatabase")
-  ContainerQueue(qu, "Queue", "SSQS", "FIFO Queue for intra-service messaging", $sprite="AzureQueueStorage", $tags="queue")
+  ContainerDb(db, "CWT Databases", "MS SQL Server", $sprite="AzureSqlDatabase")
+  ContainerQueue(qu, "Queue", "SSQS", "FIFO Queues for intra-service messaging", $sprite="AzureQueueStorage", $tags="queue")
 }
 
 System_Boundary(id, "Identity") {
@@ -28,7 +28,7 @@ System_Boundary(scds, "SCDS") {
   Container_Ext(imp, "Import", "", $descr="File import and simple validation", $sprite="AzureWebApp")
 }
 
-Rel_L(tu, sso, "Authenticates with", "https")
+Rel_R(tu, sso, "Authenticates with", "https")
 Rel_U(web, auth, "Authorises with", "https")
 Rel(tu, web, "Signs in", "https")
 Rel(tu, web, "Uploads CWT Data", "https")

@@ -28,7 +28,7 @@ package "Data Analyst" as da {
   tre.analyst -[#hidden] nhsd.analyst
 }
 
-package "Secondary Data Consumer" as dc {
+package "Secondary Data Consumer" as dc1 {
   Person("cancer.perf.lead", "Cancer Performance Lead", "") #Gold   
   Person("cancer.alliance.fd.lead", "Cancer Alliance FD/RDC Lead", "") #Red
 }
@@ -36,7 +36,7 @@ package "Secondary Data Consumer" as dc {
 Person("nhse.analyst", "NHSE Analyst", "") #GreenYellow   
 
 du -[#hidden]- da
-da -[#hidden]- dc
+da -[#hidden]- dc1
 cancer.alliance.fd.lead -[#hidden]- nhse.analyst
 
 @enduml
