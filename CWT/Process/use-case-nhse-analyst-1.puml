@@ -1,4 +1,5 @@
 @startuml use-case-nhse-analyst-1
+left to right direction
 package "P2, 25.01.22" {
 
 database "CWT\nDatabase" as db
@@ -7,7 +8,7 @@ usecase "Download\nand transform" as md2
 artifact "Combined Aggregated Reports" as cdf2
 usecase "Create aggregate reports" as car
 artifact "NHSE aggregate reports" as rpt2
-usecase "Check\nreports match" as chk
+usecase "Check\nreports match" as chk #Cyan
 artifact "CWT Aggregate Reports" as rpt1
 actor "NHSE Analyst" as na #GreenYellow
 

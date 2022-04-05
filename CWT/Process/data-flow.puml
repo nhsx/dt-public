@@ -8,7 +8,7 @@ skinparam Frame {
   BorderColor #Transparent
 }
 
-package "Data Flow" {
+package "Data Flow" as df {
   component "Electronic Referral System" as ers  
   rectangle "National Screening Service" as nss
   rectangle "Rapid Diagnostic Centres" as rdc

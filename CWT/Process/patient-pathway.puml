@@ -2,7 +2,7 @@
 'skinparam linetype ortho
 'skinparam Shadowing false
 
-package "Patient Pathway" as p {
+package "Patient Pathway" as pp {
 
 rectangle "GP Appointment and Referral" as gp
 rectangle "First seen by a specialist" as sp
@@ -32,6 +32,7 @@ note as n62 #Yellow
 endnote
 
 }
+
 
 gp --> n28
 n28 --> sp

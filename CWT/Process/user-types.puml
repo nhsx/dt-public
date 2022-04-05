@@ -10,33 +10,39 @@ UpdateElementStyle(person, $fontColor="black")
 
 skinparam Shadowing false
 
-package "Data Uploader" as du {
+package "User Types" as ut {
+
+package "Other Analysts" as oa {
+  Person("nhse.analyst", "NHSE Analyst", "") #GreenYellow 
+  Person("tre.analyst", "TRE Analyst", "") #Plum
+  Person("nhsd.analyst", "NHSD Analyst (ex-PHE)", "") #LightGrey
+}
+
+package "Data Uploaders" as du {
 
   Person("cancer.pathway.analyst", "Cancer Pathway Analyst", "") #LightCyan
   Person("cancer.data.manager", "Cancer Data Manager", "") #Lavender
 
 }
 
-package "Data Analyst" as da {
+package "CA/ICS/CCG Data Analysts" as da {
   Person("ca.analyst", "CA Analyst", "") #DarkOrange
   Person("ics.analyst", "ICS/CCG Analyst", "") #MistyRose   
-  Person("tre.analyst", "TRE Analyst", "") #Plum
-  Person("nhsd.analyst", "NHSD Analyst (ex-PHE)", "") #LightGrey
 
   ca.analyst -[#hidden] ics.analyst
   ics.analyst -[#hidden] tre.analyst
   tre.analyst -[#hidden] nhsd.analyst
 }
 
-package "Secondary Data Consumer" as dc1 {
+package "Secondary Data Consumers" as dc1 {
   Person("cancer.perf.lead", "Cancer Performance Lead", "") #Gold   
-  Person("cancer.alliance.fd.lead", "Cancer Alliance FD/RDC Lead", "") #Red
+  Person("cancer.alliance.fd.lead", "Cancer Alliance Delivery Lead", "") #Red
 }
 
-Person("nhse.analyst", "NHSE Analyst", "") #GreenYellow   
+}
 
-du -[#hidden]- da
-da -[#hidden]- dc1
-cancer.alliance.fd.lead -[#hidden]- nhse.analyst
+du -[#hidden] da
+da -[#hidden] dc1
+dc1 -[#hidden] oa
 
 @enduml
