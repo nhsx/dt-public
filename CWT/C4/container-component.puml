@@ -23,7 +23,7 @@ System_Boundary(id, "Identity") {
   Container_Ext(sso, "SSO", "OAuth", $descr="Authentication", $sprite="AzureWebApp")
 }
 
-System_Boundary(scds, "SCDS") {
+System_Boundary(scds, "SDCS") {
   Container_Ext(auth, "ACL", "", $descr="Role based authorisation", $sprite="AzureWebApp")
   Container_Ext(imp, "Import", "", $descr="File import and simple validation", $sprite="AzureWebApp")
 }

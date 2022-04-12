@@ -45,9 +45,9 @@ component "Local Cancer System" as lcs
 
 artifact "CWT Extract" as file
 
-usecase "0. Manual Upload" <<Legacy>> as mup
-usecase "1. Automated Upload" <<New>> as aup
-usecase "2. Direct Integration" <<New>> as di
+usecase "a. Manual Upload" <<Legacy>> as mup
+usecase "b. Automated Upload" <<New>> as aup
+usecase "c. Direct Integration" <<New>> as di
 
 package "CWT Data Collection" {
 
