@@ -1,6 +1,7 @@
 @startuml cwt-patient-pathway
 'skinparam linetype ortho
 'skinparam Shadowing false
+'left to right direction
 
 package "Patient Pathway" as pp {
 

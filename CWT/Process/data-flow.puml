@@ -91,7 +91,7 @@ package "Data Flow" as df {
 
 
   component "CWT Dashboard" as cdb
-  artifact "CWT National Reports / Compliance Reports" as frpt
+  artifact "CWT National Reports/\nCompliance Reports" as frpt
 
   frame "<color:#Red><$smallPerson></color>" as f9 {
     component "Cancer Alliance Workspace" as wks

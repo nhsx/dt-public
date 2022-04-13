@@ -41,8 +41,8 @@ package "Secondary Data Consumers" as dc1 {
 
 }
 
-du -[#hidden] da
-da -[#hidden] dc1
-dc1 -[#hidden] oa
+'du -[#hidden] da
+'da -[#hidden] dc1
+'dc1 -[#hidden] oa
 
 @enduml
