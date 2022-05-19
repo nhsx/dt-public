@@ -6,11 +6,11 @@ left to right direction
 HIDE_STEREOTYPE()
 SHOW_PERSON_PORTRAIT()
 
-!include use-case-ca-analyst-1.puml
-!include use-case-ca-analyst-2.puml
-!include use-case-ca-perf-manager.puml
-!include use-case-ccg-analyst-1.puml
-!include use-case-nhse-analyst-1.puml
-!include use-case-nhse-analyst-2.puml
+!include https://raw.githubusercontent.com/nhsx/dt-public/main/CWT/Process/use-case-ca-analyst-1.puml
+!include https://raw.githubusercontent.com/nhsx/dt-public/main/CWT/Process/use-case-ca-analyst-2.puml
+!include https://raw.githubusercontent.com/nhsx/dt-public/main/CWT/Process/use-case-ca-perf-manager.puml
+!include https://raw.githubusercontent.com/nhsx/dt-public/main/CWT/Process/use-case-ccg-analyst-1.puml
+!include https://raw.githubusercontent.com/nhsx/dt-public/main/CWT/Process/use-case-nhse-analyst-1.puml
+!include https://raw.githubusercontent.com/nhsx/dt-public/main/CWT/Process/use-case-nhse-analyst-2.puml
 
 @enduml
