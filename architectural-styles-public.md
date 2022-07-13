@@ -28,6 +28,6 @@ Although this appears to be the best of both worlds, there should be some cautio
 
 - [Martin Fowler on microservices](https://martinfowler.com/articles/microservices.html)
 - [What is monolithic architecture](https://www.integrate.io/glossary/what-is-monolithic-architecture/)
-- [https://www.kamilgrzybek.com/design/modular-monolith-primer/](https://www.kamilgrzybek.com/design/modular-monolith-primer/)
+- [Modular Monolith Primer](https://www.kamilgrzybek.com/design/modular-monolith-primer/)
 
 
