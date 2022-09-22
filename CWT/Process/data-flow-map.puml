@@ -1,0 +1,12 @@
+@startuml cwt-data-flow-map
+skinparam Shadowing false
+'left to right direction
+
+!include https://raw.githubusercontent.com/nhsx/dt-public/main/CWT/Process/user-types.puml
+!include https://raw.githubusercontent.com/nhsx/dt-public/main/CWT/Process/data-flow.puml
+!include https://raw.githubusercontent.com/nhsx/dt-public/main/CWT/Process/patient-pathway.puml
+
+cancer.alliance.fd.lead -[#hidden]- pp
+u1 -[#hidden] df
+
+@enduml

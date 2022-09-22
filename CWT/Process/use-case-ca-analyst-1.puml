@@ -1,0 +1,18 @@
+@startuml use-case-ca-analyst-1
+package "P1, 25.01.22" {
+artifact "CWT CSV Extract" as csv
+actor "CA Analyst" as ca #DarkOrange
+usecase "Download\nand transform" as md
+artifact "Combined data file" as cdf
+usecase "Create report" as cr
+artifact "Excel report" as ss
+
+ss <- cr
+cr <- cdf
+cdf <- md
+md <- csv
+ca --> md : manual\nto local files
+ca --> cr : PowerQuery
+
+}
+@enduml

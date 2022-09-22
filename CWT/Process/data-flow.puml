@@ -1,6 +1,14 @@
-@startuml
+@startuml cwt-data-flow
+
+'!include <C4/C4_Container>
+!$smallPerson = $person{scale=0.5}
 'left to right direction
-package "Data Flow" {
+skinparam Shadowing false
+skinparam Frame {
+  BorderColor #Transparent
+}
+
+package "Data Flow" as df {
   component "Electronic Referral System" as ers  
   rectangle "National Screening Service" as nss
   rectangle "Rapid Diagnostic Centres" as rdc
@@ -10,17 +18,37 @@ package "Data Flow" {
   component "Patient Administration System" as pas
   component "Diagnostic Systems" as ds
   component "Oncology Systems" as os
-  component lcs [
-    <b><u>Local Cancer System
 
-    ====
-    Somerset Cancer Register (SCR)
-    Infoflex 
+  usecase "Data Collection" as dc
+
+  frame "<color:#Lavender><$smallPerson></color><color:#LightCyan><$smallPerson></color>" as f1 {
+    usecase "Pre-validation" as pvd
+    component lcs [
+      <b><u>Local Cancer System  
+      ====
+      Somerset Cancer Register (SCR)
+      Infoflex 
+    ]
+  }
+  component "<b><u>Cancer Waiting Times System" as cwt
+
+  frame "<color:#LightGrey><$smallPerson></color>" as f7 {
+    rectangle "ex-PHE\n(now NHSD)" as nhsd 
+  } 
+
+  component ncras [
+    Other Cancer
+    Reporting Systems
+    ----
+    e.g. NCRAS
   ]
-  component "Cancer Waiting Times System" as cwt
-  component "Trusted Research Environment" as tre
-  component "Other Bespoke System" as oth
 
+  frame "<color:#Plum><$smallPerson></color>" as f8 {
+    component "Trusted Research Environment" as tre
+  } 
+  frame "<color:#Lavender><$smallPerson></color><color:#LightCyan><$smallPerson></color>" as f2 {
+    component "Other Bespoke System" as oth
+  }
   database db [
     CWT
     Database
@@ -46,39 +74,56 @@ package "Data Flow" {
   usecase "Validation" as vld2 
   artifact "Extract" as ex
   usecase "Upload" as up
-  usecase "Pre-validation" as pvd
+  
   usecase "Validation" as vld
+  frame "<color:#GreenYellow><$smallPerson></color>" as f3 {
+    rectangle "NHSE" as nhse
+  }
+  frame "<color:#MistyRose><$smallPerson></color>" as f4 {
+    rectangle "CCGs/ICSs" as ics
+  }
+  frame "<color:#DarkOrange><$smallPerson></color>" as f5 {
+    rectangle "Cancer Alliances" as ca
+  }  
+  frame "<color:#Lavender><$smallPerson></color><color:#Gold><$smallPerson></color>" as f6 {
+    rectangle "Trusts" as ht
+  }  
 
-  rectangle "NHSE" as nhse
-  rectangle "CCGs/ICSs" as ics
-  rectangle "Cancer Alliances" as ca
-  rectangle "Trusts" as ht
-  rectangle "ex-PHE\n(now NHSD)" as nhsd 
+
+  component "CWT Dashboard" as cdb
+  artifact "CWT National Reports/\nCompliance Reports" as frpt
+
+  frame "<color:#Red><$smallPerson></color>" as f9 {
+    component "Cancer Alliance Workspace" as wks
+  }
 
 }
 
 
 
-ers -- p1a
-p1a ------> lcs
+ers .. p1a
+p1a ...... dc
 
-nss -- p1b
-p1b ------> lcs
+nss .. p1b
+p1b ...... dc
 
-rdc -- p1c
-p1c ------> lcs
+rdc .. p1c
+p1c ...... dc
 
-ep -- p1d
-p1d ------> lcs
+ep .. p1d
+p1d ...... dc
 
-pas -- p25a
-p25a ----> lcs
-ds -- p25b
+pas .. p25a
+p25a .... dc
+ds .. p25b
 
-p25b --> lcs
+p25b .. dc
 
-os -- p25c
-p25c --> lcs
+os .. p25c
+p25c .. dc
+
+dc --> lcs
+dc --> oth
 
 up --> cwt
 
@@ -91,6 +136,7 @@ lcs -> pvd
 pvd -> lcs
 
 oth ..> ex : Manual
+oth --> ex : Automated
 
 lcs <.. vld
 vld .. cwt
@@ -98,7 +144,8 @@ vld .. cwt
 vld2 .. cwt
 oth <.. vld2
 
-db ..> nhsd
+db ...> nhsd
+nhsd ..> ncras
 db --> tre
 
 cwt --> rpt
@@ -111,9 +158,16 @@ rpt --> ics
 rpt --> ca
 rpt --> ht
 
+nhse ..> cdb
+nhse ..> frpt
+
+frpt .> wks
+ca <.. wks : reports to
+
 ' layout 
 up -[#hidden] vld
 vld2 -[#hidden] ex
+
 ' end-layout
 
 @enduml

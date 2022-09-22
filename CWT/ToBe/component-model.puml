@@ -1,0 +1,172 @@
+@startuml cwt-tobe-component-model
+
+'left to right direction
+
+queue es [
+  Event Stream
+  ===
+  
+  Kafka
+  Azure Event Hub
+  AWS SNS
+]
+
+package "CWT System" {
+
+component cwt [
+  CWT Portal
+  ===
+  HTML/JavaScript
+]
+
+component cmd [
+  Command API
+  ===
+  JSON REST
+]
+component qry [
+  Query API
+  ===
+  GraphQL
+  OData
+]
+component ano [
+  Anonymiser
+  ===
+  Immuta
+  Privitar
+  etc
+]
+component log [
+  Logger
+  ===
+  Azure Monitor
+  AWS CloudWatch
+  etc.
+]
+database db [
+  Database
+  === 
+
+  SQL Server
+]
+
+component mm [
+  Match and Merge
+  ===
+]
+
+component ds [
+  Derivation
+  ===
+]
+
+component eps [
+  Event Pub/Sub
+  ===
+]
+
+}
+
+package "Repeatable Analytics Pipeline" {
+
+  artifact dfn [
+    RAP definition
+    as code
+    ===
+    ARM Template
+    etc.
+  ] 
+  usecase "Extract" as ext
+  usecase "Load" as ld
+  database "Data warehouse" as dw
+  usecase trn [
+    Transform
+    ---
+    Standards 
+    Compliance
+  ]
+  artifact wkb [
+    Open Analytics Workbook
+    ---
+    R Markdown
+    Jupyter Notebook
+    etc.
+  ]
+
+  ext -- ld
+  ld - dw 
+  ld -- trn
+  dw .. trn
+  trn - wkb
+  dw .. wkb
+}
+
+component ful [
+  File Uploader
+  ===
+  SCDS Cloud
+  Azure File Sync
+  SFTP
+  etc.
+]
+
+component lcs [
+  Local Cancer System
+  ===
+  Somerset
+  Infoflex
+  Custom
+]
+
+
+component id [
+  Identity Provider
+  ===
+  AAD
+  NHSMail
+  etc.
+]
+
+artifact file [
+  CWT Extract
+]
+
+note as n1
+  New channel
+  Direct integration
+endnote
+
+note as n2
+  Existing channel
+  File upload
+endnote
+
+note as n3
+  New channel
+  Eventing
+endnote
+
+id .. cwt
+lcs -- n3
+lcs .. n2
+n3 --- es
+n2 .. file
+lcs -- n1
+n1 --- cmd
+file .. ful
+ful -- cmd
+cwt - cmd
+cmd -- mm
+mm - ds
+ds -- db
+db -left- ano
+ano -left-qry
+cmd -left- eps
+es -- eps
+qry -- ext
+
+' layout
+log -[#hidden] qry 
+id -[#hidden] ful
+@enduml

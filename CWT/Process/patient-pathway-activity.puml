@@ -1,4 +1,4 @@
-@startuml
+@startuml cwt-patient-pathway-activity
 | Stage 1 |
 :GP Appointment and Referral;
 -> 28 Day;

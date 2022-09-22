@@ -1,8 +1,9 @@
-@startuml
+@startuml cwt-patient-pathway
 'skinparam linetype ortho
 'skinparam Shadowing false
+'left to right direction
 
-package "Patient Pathway" as p {
+package "Patient Pathway" as pp {
 
 rectangle "GP Appointment and Referral" as gp
 rectangle "First seen by a specialist" as sp
@@ -10,11 +11,11 @@ rectangle "Diagnosis and decision" as dd
 rectangle "First treatment" as t1
 rectangle "Subsequent treatment" as t2
 
-usecase "1" as u1 #Transparent
-usecase "2" as u2 #Transparent
-usecase "3" as u3 #Transparent
-usecase "4" as u4 #Transparent
-usecase "5" as u5 #Transparent
+usecase "1" as u1 #Cyan
+usecase "2" as u2 #Cyan
+usecase "3" as u3 #Cyan
+usecase "4" as u4 #Cyan
+usecase "5" as u5 #Cyan
 
 circle " " as c1
 circle " " as c2
@@ -32,6 +33,7 @@ note as n62 #Yellow
 endnote
 
 }
+
 
 gp --> n28
 n28 --> sp

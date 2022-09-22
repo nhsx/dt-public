@@ -1,0 +1,31 @@
+@startuml use-case-nhse-analyst-2
+
+package "P5, 26.01.22" {
+
+usecase "Download extracts" as dwn
+artifact "Zip file" as zip
+usecase "Create and run reports" as run
+artifact "Tableau Aggregate Reports" as tbl
+database "SQL Server Database" as db2
+usecase "Import" as imp
+component "CWT System" as cwt
+actor "NHSE Analyst\n(Cancer Waits Team)" as na5 #GreenYellow
+usecase "Publish reports" as pub 
+collections "NHSE Website" as web
+
+web <- pub
+pub <- tbl
+tbl <- run
+run <- db2
+db2 <- imp
+imp <- zip
+zip <- dwn
+dwn <- cwt
+
+na5 --> dwn : manual
+na5 --> run : \n\nSQL code\nand R-scripts
+na5 --> imp
+na5 --> pub
+
+}
+@enduml
