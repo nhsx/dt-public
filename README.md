@@ -6,9 +6,9 @@ Re-use and link to public resources here from other places...
 
 Introductory videos on some fun tech topics:
 
-- [Coffee and Code - Open Source Software](https://youtu.be/-5_mIxzRhL4)
+- [Tea and Tech - Open Source Software](https://youtu.be/dxPa7JqFCe0)
   
-  [![Coffee and Code - Open Source Software](https://img.youtube.com/vi/-5_mIxzRhL4/maxresdefault.jpg)](https://youtu.be/-5_mIxzRhL4)
+  [![Tea and Tech - Open Source Software](https://img.youtube.com/vi/dxPa7JqFCe0/maxresdefault.jpg)](https://youtu.be/dxPa7JqFCe0)
 
 - [Lunch and Learn - Azure Data Engineering 101](https://youtu.be/Dd57yenKH-4)
   
