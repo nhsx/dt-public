@@ -1,0 +1,30 @@
+@startuml
+|#LightCyan|S1| <b>Regulated\n<b>Healthcare\n<b>Professional\n 
+|#LightGreen|S2| <b>Employer 
+|#YellowGreen|S3| <b>Delivery\n<b>Partner 
+|S1|
+start
+if (Books CPD with employer) then
+  :Attends CPD;
+  end
+else
+  |S2|
+  :Starts new claim;
+  :Provides evidence;
+  :Submits claim;
+  |S3|
+  :Validates claim;
+  if (Claim is elligible?) then (no)
+      :Claim is rejected;
+      
+    end
+
+  else (yes)
+    :Pays employer;
+  endif
+  |S2|
+  :Employer recieves payment;
+  end  
+endif
+
+@enduml
