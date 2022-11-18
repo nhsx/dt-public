@@ -1,0 +1,132 @@
+<html>
+<head>
+<title>My Journey</title>
+<script type="text/javascript">
+window.onload = function() {
+  let now = new Date();
+  let travelDate = formatDate(now);
+  setLinks(now);  
+  document.getElementById("travel-date").value = travelDate; 
+}
+
+function formatDate(dt) {
+  return dt.toLocaleDateString('en-GB').replace("/20","").replace("/","");
+}
+
+function buildDate(sdt) {
+  dt = new Date();
+  dt.setFullYear(2000 + parseInt(sdt.substr(4,2)), parseInt(sdt.substr(2,2))-1, parseInt(sdt.substr(0,2)));
+  return dt;
+}
+
+function updateLinks() {
+  let express = document.getElementById("express-train").checked;
+  let travelDate = document.getElementById("travel-date").value;
+  dt = buildDate(travelDate);
+  setLinks(dt, express);  
+}
+
+function setLinks(dt, express) {
+  let travelDate = formatDate(dt);
+  links = document.getElementsByTagName("a");
+  calendar = document.getElementById("calendar");
+  createCalendar(calendar, dt.getFullYear(), dt.getMonth() + 1, dt.getDate());
+  for (link of links) {
+	returnTime = link.id.slice(-4);
+	setLink(link, travelDate, returnTime, express);
+  }
+}
+
+function setLink(link, travelDate, returnTime, express) {
+  let url = "https://ojp.nationalrail.co.uk/service/timesandfares/NUN/EUS/travel-date/0700/dep/travel-date/return-time/dep?directonly";
+  if (express) {
+	url += "&show=VT";
+  }
+  url = url.replace(/travel-date/g, travelDate).replace(/return-time/, returnTime);
+  link.href = url;
+  link.target = "myjourney";
+}
+
+function setDay(td) {
+  let travelDate = document.getElementById("travel-date").value;
+  let day = td.innerText.padStart(2,'0');
+  document.getElementById("travel-date").value = day + travelDate.substr(2,4);
+  updateLinks();
+}
+
+function setMonth(month) {
+  let travelDate = document.getElementById("travel-date").value;
+  let mon = month.toString().padStart(2,'0');
+  document.getElementById("travel-date").value = travelDate.substr(0,2) + mon + travelDate.substr(4,2);
+  updateLinks();
+}
+
+function createCalendar(elem, year, month, day) {
+
+  let mon = month - 1; // months in JS are 0..11, not 1..12
+  let d = new Date(year, mon);
+  let months = ['Dec','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan'];
+  
+  let table = '<h2><span onclick="setMonth('+(month-1)+')" style="font-size:small">' + months[month-1] + '</span>' +
+			  '<span onclick="setMonth('+(month)+')">|' + months[month] + '|</span>' + 
+			  '<span onclick="setMonth('+(month+1)+')" style="font-size:small">' + months[month+1] + '</span></h2>' + '<table><tr><th>MO</th><th>TU</th><th>WE</th><th>TH</th><th>FR</th><th>SA</th><th>SU</th></tr><tr>';
+
+  // spaces for the first row
+  // from Monday till the first day of the month
+  // * * * 1  2  3  4
+  for (let i = 0; i < getDay(d); i++) {
+	table += '<td></td>';
+  }
+
+  // <td> with actual dates
+  while (d.getMonth() == mon) {
+	if (d.getDate() == day) {
+		table += '<td onclick="setDay(this)"><strong>' + d.getDate() + '</strong></td>';	
+	} else {
+		table += '<td onclick="setDay(this)">' + d.getDate() + '</td>';
+    }
+	
+	if (getDay(d) % 7 == 6) { // sunday, last day of week - newline
+	  table += '</tr><tr>';
+	}
+
+	d.setDate(d.getDate() + 1);
+  }
+
+  // add spaces after last days of month for the last row
+  // 29 30 31 * * * *
+  if (getDay(d) != 0) {
+	for (let i = getDay(d); i < 7; i++) {
+	  table += '<td></td>';
+	}
+  }
+
+  // close the table
+  table += '</tr></table>';
+
+  elem.innerHTML = table;
+}
+
+function getDay(date) { // get day number from 0 (monday) to 6 (sunday)
+  let day = date.getDay();
+  if (day == 0) day = 7; // make Sunday (0) the last day
+  return day - 1;
+}
+
+</script>
+</head>
+<body>
+<h1>Book My Journey to Work</h1>
+<div>
+  <div id="calendar"></div>	
+  <label for="travel-date">Date (DDMMYY):</label>
+  <input type="text" id="travel-date" name="travel-date" onblur="updateLinks()"><br><br>
+  <label for="express-train">Avanti West Coast only:</label> 
+  <input type="checkbox" id="express-train" name="express-train" onclick="updateLinks()"></input>
+</div>
+<div>
+  <a id="site-link-1700" href="https://www.nationalrail.co.uk/">Nine to Five</a>
+  <a id="site-link-2100" href="https://www.nationalrail.co.uk/">Nine to Nine</a>
+  <a id="site-link-2200" href="https://www.nationalrail.co.uk/">Nine to Ten</a> 
+</div>
+</body>
