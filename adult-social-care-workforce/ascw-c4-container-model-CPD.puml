@@ -1,0 +1,45 @@
+@startuml
+!include <azure/AzureCommon>
+!include <azure/Web/AzureWebApp>
+!include <azure/Databases/AzureSqlDatabase>
+!include <azure/Storage/AzureBlobStorage>
+!include <C4/C4_Container>
+!include <C4/C4_Component>
+
+AddRelTag("dashed", $lineStyle=DashedLine())
+
+Person(rhp, "Regulated Health Professional", "Registered Nurses, Nurse Associates, OTs and AHPs")
+
+Person(emp, "Employer", "CQC regulated ASC provider")
+
+Person(app, "Approver", "Human who approves claims")
+
+System_Boundary(dp, "Digital Platform") {
+  Container(fc, "Find CPD courses", "", $descr="Service to find CPD courses", $sprite="AzureWebApp")
+  Container(vs, "Validation system", "", $descr="Validates claims based on eligibility requirements", $sprite="AzureWebApp")  
+  ContainerDb(tdb, "Course list", "", $descr="List of acredited CPD courses", $sprite="AzureSqlDatabase")
+  ContainerDb(fs, "Evidence file storage", "", $descr="Stores proof of evidence provided by employer", $sprite="AzureBlobStorage")
+}
+
+Component(ilrs, "Individual Learning Records", "CSV")
+
+ContainerDb_Ext(nmc, "NMC Register", "", $descr="Registered nurse dataset", $sprite="AzureSqlDatabase")
+Container_Ext(ps, "Finance system", "", $descr="Process payments")
+
+Rel_U(rhp, emp, "1. Books and attends training, informs employer", "")
+Rel_D(emp, ilrs, "2. Records CPD", "")
+Rel_D(ilrs, fs, "3. Uploads evidence", "")
+Rel_U(vs, fs, "4. Reads evidence", "")
+Rel_D(vs, nmc, "5. Checks registration number")
+
+Rel_D(rhp, fc, "0. Finds CPD courses", $tags="dashed")
+Rel_D(fc, tdb, "Queries courses", "")
+
+Rel_R(app, vs, "6. Approves claim")
+
+Rel_U(app, ps, "7. Release payments", $tags="dashed")
+Rel_U(ps, emp, "8. Receives payments", $tags="dashed")
+
+
+LAYOUT_WITH_LEGEND()
+@enduml
