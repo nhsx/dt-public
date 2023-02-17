@@ -1,0 +1,94 @@
+@startuml ccv2-user-journey-ccqual
+|#BFFAF5|S1| <b>Rima\nRegistered\nManager 
+|#EBEBEB|S4| <b>Trevor\nExternal Trainer
+|#00A188|S2| <b>Care Hub
+|#D9D9D9|S3| <b>Nathan\nNew Care Worker
+|#EBEBEB|S5| <b>Sophia\nSupervisor
+
+|S4|
+start
+:Starts virtual class;
+|S2|
+:Virtual classroom|
+|S3|
+:Joins virtual class;
+|S2|
+:Session Recordings|
+|S3|
+-[hidden]->
+:Begins evaluation;
+|S2|
+:Assessments|
+|S3|
+-[hidden]->
+:Practise learnings;
+:Record reflections;
+|S2|
+:Reflective learnings|
+|S4|
+-[hidden]->
+:Starts review;
+|S2|
+:Regular reviews|
+|S3|
+:Joins review;
+-[hidden]->
+:Seek advice;
+|S2|
+:CC Qualification forum>
+|S3|
+:Schedule meetup;
+-[hidden]->
+|S5|
+:Provide witness testimony;
+|S2|
+:Witness testimonies|
+|S3|
+-[hidden]->
+:Start e-learning;
+|S2|
+:Modules|
+:CC Qual 50% complete;
+|S3|
+:Complete e-learning;
+|S2|
+:CC Qual 75% complete;
+-[#black,dotted]->
+|S3|
+:Further e-learning;
+|S2|
+-[#black,dotted]->
+:CC Qual 100% complete;
+|S3|
+:Begin competence assessment;
+|S2|
+:Assessments|
+|S4|
+-[hidden]->
+:Begins observation;
+-> Observes Nathan during his client visits for 2 days;
+|S3|
+:Attends client visits;
+|S2|
+:CC Qualification>
+|S4|
+:Reviews all competences;
+:Awards ceritficate;
+|S2|
+:CC Qualifcations|
+if () then (Notifies Rima)
+|S1| 
+:Notified of CC;
+:Reviews training;
+|S2|
+:Training overview>
+
+kill
+else (Notifies Nathan)
+|S3|
+:Receives CC;
+kill
+endif
+
+@enduml
+

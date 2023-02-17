@@ -1,0 +1,72 @@
+@startuml ccv2-user-journey-onboarding
+|#BFFAF5|S1| <b>Rima\nRegistered\nManager 
+|#EBEBEB|S4| <b>Trevor\nExternal Trainer
+|#00A188|S2| <b>Care Hub
+|#D9D9D9|S3| <b>Nathan\nNew Care Worker
+|S1|
+start
+:Sets up organisation account;
+|S2|
+:Organisations|
+|S1|
+:Adds Nathan to worker register;
+|S2|
+:Employees|
+|S3|
+-> invite sent;
+:Signs in; 
+|S2|
+:Welcome!;
+split
+   :First week;
+split again
+   :Career development;
+split again
+   :Training;
+split again
+   :Care Certificate;
+end split
+|S3|
+:Arrives for first day;
+:Meets team;
+split
+  :Registers interest\nin Care Certificate;
+  |S2|
+  -> add request;
+  :Training Requests|
+  -> sends alert;
+  |S1|
+  :Selects training provider;
+  |S2|
+  :Learning Providers|
+  |S1|
+  :Books training;
+  |S2|
+  -> add booking;
+  :Bookings|
+  |S4|
+  -> send alert;
+  :Meets with Rima to discuss training;
+  |S2|
+  :Care Certifcate Training>
+  |S3|
+  :Proceeds with\nCare Certifcate training\nover next 8 months;
+  stop
+split again
+  |S3|
+  :Begins induction;
+  |S2|
+  -> starts;
+  :Online training module 1>
+  :Online training module 2>
+  -[#black,dotted]->;
+  :Online training module n>
+  |S3|
+  :Completes induction;
+  -> Awarded mandatory\ntraining certificate;
+  |S2|
+  :Certifcates|
+  kill
+end split
+
+@enduml
