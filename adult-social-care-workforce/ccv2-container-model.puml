@@ -1,0 +1,54 @@
+@startuml ccv2-container-model
+!include <azure/AzureCommon>
+!include <azure/Web/AzureWebApp>
+!include <azure/Databases/AzureSqlDatabase>
+!include <azure/Storage/AzureBlobStorage>
+!include <C4/C4_Container>
+!include <C4/C4_Component>
+
+skinparam linetype ortho
+
+AddRelTag("dashed", $lineStyle=DashedLine())
+
+Person(cw, "Care worker", "")
+
+Person(emp, "Employer", "")
+
+Person_Ext(trn, "Trainer", "")
+
+Container_Ext(id, "Identity provider", "")
+
+System_Boundary(hub, "Care Hub") {
+  Container(am, "Access management", "")
+  Container(cms, "Content managment system", "")
+  Container(not, "Notifcations service", "")
+  Container(bkg, "Scheduling and booking", "")  
+  System_Boundary(lms, "Learning management system") {
+    Container(tp, "Training portal", "")
+    Container(vcr, "Virtual classrooms", "")   
+    ContainerDb(rec, "Session recordings", "")   
+    Container(adm, "Course administration", "")     
+  }
+  Container(frm, "User community portal", "")
+  Container_Ext(vcn, "Video conferencing", "")  
+}
+
+id .. trn
+id .. emp
+id .. cw
+
+emp --> am
+cw --> am
+trn --> am
+
+am --> cms
+am --> bkg
+am ---> lms
+am --> frm
+
+bkg ---> not
+lms --> not
+lms .> vcn
+
+LAYOUT_WITH_LEGEND()
+@enduml
