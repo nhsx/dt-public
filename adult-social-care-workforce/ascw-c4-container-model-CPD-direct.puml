@@ -1,39 +1,24 @@
 @startuml ascw-c4-container-model-CPD-direct
-!include <azure/AzureCommon>
-!include <azure/Web/AzureWebApp>
-!include <azure/Databases/AzureSqlDatabase>
-!include <azure/Storage/AzureBlobStorage>
-!include <C4/C4_Container>
-!include <C4/C4_Component>
+!include ascw-c4-container-model-CPD-base.puml
 
-AddRelTag("dashed", $lineStyle=DashedLine())
-
+AddRelTag("dashed", $lineStyle=DashedLine(), $legendText="external process\ndashed line")
+AddElementTag("tobe", $bgColor="White", $fontColor="Gray", $borderColor="DarkGray", $legendText="to be external API")
 Person(rhp, "Regulated Health Professional", "Registered Nurses, Nurse Associates, OTs and AHPs")
 
-Person(app, "Approver", "Human who approves claims")
-
-System_Boundary(dp, "Digital Platform") {
-  Container(sc, "Submit CPD claims", "", $descr="Service to bulk upload CPD claims", $sprite="AzureWebApp")
-  Container(vs, "Validation system", "", $descr="Validates claims based on eligibility requirements", $sprite="AzureWebApp")  
-  ContainerDb(fs, "Evidence file storage", "", $descr="Stores proof of evidence provided by employer", $sprite="AzureBlobStorage")
-}
+Container_Ext(pf, "Payment File", "", $sprite="&file,scale=5.0")
 
 Component(cert, "CPD certificate", "pdf")
 
-ContainerDb_Ext(nmc, "NMC Register", "", $descr="Registered nurse dataset", $sprite="AzureSqlDatabase")
-Container_Ext(ps, "Finance system", "", $descr="Process payments")
+Container_Ext(fin, "Finance system", "", $descr="Process payments")
 
-Rel_D(rhp, cert, "1. Books and attends training, receives certificate", "")
-Rel_D(cert, sc, "2. Makes claim and uploads evidence", "")
-Rel_D(sc, fs, "Store evidence")
-Rel_U(vs, fs, "Reads evidence", "")
-Rel_D(vs, nmc, "Checks registration number")
+Rel_L(rhp, cert, "1. Books and attends training, receives certificate", "")
+Rel_D(cert, sc, "2. Makes claim, picks employer from provider list and uploads evidence", "")
 
-Rel_R(app, vs, "4. Approves claim")
+ps -> pf
+pf .> fin
 
-Rel_U(app, ps, "5. Release payments", $tags="dashed")
-Rel_U(ps, rhp, "6. Receives payments", $tags="dashed")
+Rel_L(fin, rhp, "3. Receives payments", $tags="dashed")
 
+SHOW_LEGEND_EX()
 
-LAYOUT_WITH_LEGEND()
 @enduml
