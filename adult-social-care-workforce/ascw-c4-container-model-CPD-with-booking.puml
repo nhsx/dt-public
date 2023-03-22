@@ -1,7 +1,7 @@
 @startuml ascw-c4-container-model-CPD-with-booking
-!include https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4.puml
+!include ascw-c4.puml
 $initStep(3)
-!include https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4-container-model-CPD-with-courses.puml
+!include ascw-c4-container-model-CPD-with-courses.puml
 
 System_Boundary(dp, "Digital Platform") {
   Container(bs, "Booking system", "", $descr="Schedule and book training", $sprite="AzureWebApp")
