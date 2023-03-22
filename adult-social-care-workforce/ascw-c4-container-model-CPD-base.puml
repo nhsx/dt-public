@@ -1,5 +1,5 @@
 @startuml ascw-c4-container-model-CPD-base
-!include ascw-c4.puml
+!include https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4.puml
 
 AddRelTag("dashed", $lineStyle=DashedLine(), $legendText="external process\ndashed line")
 AddElementTag("tobe", $bgColor="White", $fontColor="Gray", $borderColor="DarkGray", $legendText="to be external API")
