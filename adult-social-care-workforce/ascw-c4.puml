@@ -1,0 +1,29 @@
+@startuml ascw-c4
+!include <azure/AzureCommon>
+!include <azure/Web/AzureWebApp>
+!include <azure/Web/AzureAPIManagement>
+!include <azure/Databases/AzureSqlDatabase>
+!include <azure/Storage/AzureBlobStorage>
+!include <C4/C4_Container>
+!include <C4/C4_Component>
+
+!unquoted procedure SHOW_LEGEND_EX()
+  ' hack the legend slightly
+  !$tagDefaultLegend = "person\ncontainer\ncomponent\nexternal_container\n"
+  !$tagCustomLegend = "tobe\n"
+  SHOW_LEGEND()
+!endprocedure
+
+!procedure $initStep($start=1)
+!if (%not(%variable_exists("$stepno")))
+!global $stepno = $start
+!endif
+!endprocedure
+
+!function $step($start = 0)
+!$initStep()
+!global $stepno = $stepno + 1
+!return $stepno - 1
+!endfunction
+
+@enduml

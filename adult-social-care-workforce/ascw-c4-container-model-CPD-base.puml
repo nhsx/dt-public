@@ -1,11 +1,5 @@
 @startuml ascw-c4-container-model-CPD-base
-!include <azure/AzureCommon>
-!include <azure/Web/AzureWebApp>
-!include <azure/Web/AzureAPIManagement>
-!include <azure/Databases/AzureSqlDatabase>
-!include <azure/Storage/AzureBlobStorage>
-!include <C4/C4_Container>
-!include <C4/C4_Component>
+!include ascw-c4.puml
 
 AddRelTag("dashed", $lineStyle=DashedLine(), $legendText="external process\ndashed line")
 AddElementTag("tobe", $bgColor="White", $fontColor="Gray", $borderColor="DarkGray", $legendText="to be external API")
@@ -19,20 +13,20 @@ System_Boundary(dp, "Digital Platform") {
 
 System_Boundary(sfc, "Skills for Care") {
   ContainerDb_Ext(wds, "ASC Workforce Dataset", "", $descr="Employee dataset", $sprite="AzureSqlDatabase")
-  ContainerDb_Ext(wda, "WDS API", "", $descr="Workforce dataset API", $sprite="AzureAPIManagement", $tags="tobe")
+  Container_Ext(wda, "WDS API", "", $descr="Workforce dataset API", $sprite="AzureAPIManagement", $tags="tobe")
   wda -- wds
-  ContainerDb_Ext(wts, "TP dataset", "", $descr="Accredited Training Provider dataset", $sprite="AzureSqlDatabase")
-  ContainerDb_Ext(wta, "TP API", "", $descr="Training providers API", $sprite="AzureAPIManagement",  $tags="tobe")
-  wta -- wts
+  'ContainerDb_Ext(wts, "TP dataset", "", $descr="Accredited Training Provider dataset", $sprite="AzureSqlDatabase")
+  'ContainerDb_Ext(wta, "TP API", "", $descr="Training providers API", $sprite="AzureAPIManagement",  $tags="tobe")
+  'wta -- wts
 }
 
 System_Boundary(nmc, "Nursing and midwifery council") {
   ContainerDb_Ext(nmr, "NMC Register", "", $descr="Registered nurse dataset", $sprite="AzureSqlDatabase")
-  ContainerDb_Ext(nma, "NMC API", "", $descr="Registered nurse API", $sprite="AzureAPIManagement",  $tags="tobe")
+  Container_Ext(nma, "NMC API", "", $descr="Registered nurse API", $sprite="AzureAPIManagement",  $tags="tobe")
   nma -- nmr
 }
 
-ContainerDb_Ext(cqc, "CQC API", "", $descr="CQC regulated providers", $sprite="AzureAPIManagement")
+Container_Ext(cqc, "CQC API", "", $descr="CQC regulated providers", $sprite="AzureAPIManagement")
 
 Rel_D(sc, fs, "Store evidence")
 Rel_L(vs, fs, "Reads evidence", "")
@@ -40,15 +34,8 @@ Rel_L(vs, fs, "Reads evidence", "")
 Rel_D(vs, nma, "Checks registration number")
 Rel_R(vs, cqc, "Checks CQC provider")
 Rel_D(vs, wda, "Checks employee provider relationship")
-Rel_D(vs, wta, "Checks training provider details")
+'Rel_D(vs, wta, "Checks training provider details")
 
 Rel_U(vs, ps, "Raise payments")
-
-!unquoted procedure SHOW_LEGEND_EX()
-  ' hack the legend slightly
-  !$tagDefaultLegend = "person\ncontainer\ncomponent\nexternal_container\n"
-  !$tagCustomLegend = "tobe\n"
-  SHOW_LEGEND()
-!endprocedure
 
 @enduml

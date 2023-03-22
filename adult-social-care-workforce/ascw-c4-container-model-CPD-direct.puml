@@ -1,5 +1,5 @@
 @startuml ascw-c4-container-model-CPD-direct
-!include https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4-container-model-CPD-base.puml
+!include ascw-c4-container-model-CPD-base.puml
 
 AddRelTag("dashed", $lineStyle=DashedLine(), $legendText="external process\ndashed line")
 AddElementTag("tobe", $bgColor="White", $fontColor="Gray", $borderColor="DarkGray", $legendText="to be external API")
@@ -11,13 +11,13 @@ Component(cert, "CPD certificate", "pdf")
 
 Container_Ext(fin, "Finance system", "", $descr="Process payments")
 
-Rel_L(rhp, cert, "1. Books and attends training, receives certificate", "")
-Rel_D(cert, sc, "2. Makes claim, picks employer from provider list and uploads evidence", "")
+Rel_L(rhp, cert, "$step(). Books and attends training, receives certificate", "")
+Rel_D(cert, sc, "$step(). Makes claim, picks employer from provider list and uploads evidence", "")
 
 ps -> pf
 pf .> fin
 
-Rel_L(fin, rhp, "3. Receives payments", $tags="dashed")
+Rel_L(fin, rhp, "$step(). Receives payments", $tags="dashed")
 
 SHOW_LEGEND_EX()
 

@@ -1,94 +1,14 @@
 @startuml ascw-c4-container-model-CPD-with-booking
-!include <azure/AzureCommon>
-!include <azure/Web/AzureWebApp>
-!include <azure/Databases/AzureSqlDatabase>
-!include <azure/Storage/AzureQueueStorage>
-!include <C4/C4_Container>
-left to right direction
-
-AddElementTag("queue", $bgColor="white", $fontColor=$PERSON_BG_COLOR)
-AddRelTag("message", $lineStyle=DashedLine())
-
-Person(rhp, "Regulated Health Professional", "Registered Nurses, Nurse Associates, OTs and AHPs")
-
-Person(emp, "Employer", "CQC regulated ASC provider")
-
-Person(app, "Approver", "Human who approves claims")
+!include ascw-c4.puml
+$initStep(3)
+!include ascw-c4-container-model-CPD-with-courses.puml
 
 System_Boundary(dp, "Digital Platform") {
   Container(bs, "Booking system", "", $descr="Schedule and book training", $sprite="AzureWebApp")
-  Container(cs, "Claim system", "", $descr="Process employer reimbursement claims", $sprite="AzureWebApp")
-  Container(ps, "Payment system", "", $descr="Process automated payments", $sprite="AzureWebApp")
-  Container(vs, "Validation system", "", $descr="Validates claims based on eligibility requirements", $sprite="AzureWebApp")  
   Container(rs, "Reporting system", "", $descr="Generates bi-annual reports and metrics", $sprite="AzureWebApp")  
-    
-  ContainerDb(fs, "Evidence file storage", "", $descr="Stores proof of evidence provided by employer", $sprite="AzureSqlDatabase")
-  'ContainerQueue(qu, "Queue", "SSQS", "FIFO Queues for intra-service messaging", $sprite="AzureQueueStorage", $tags="queue")
 }
 
-ContainerDb_Ext(wds, "ASC Workforce Dataset", "", $descr="Employee dataset", $sprite="AzureSqlDatabase")
-ContainerDb_Ext(nmc, "NMC Register", "", $descr="Registered nurse dataset", $sprite="AzureSqlDatabase")
-ContainerDb_Ext(tdb, "Course Dataset", "", $descr="List of eligible training courses", $sprite="AzureSqlDatabase")
+Rel_D(bs, cl, "Schedule course booking")
 
-
-Rel_D(rhp, bs, "Books training", "")
-Rel_D(emp, cs, "Makes claim", "")
-Rel_D(emp, fs, "Uploads evidence", "")
-Rel_D(cs, vs, "Submit claim", "")
-Rel_L(app, vs, "Approves claim", "")
-Rel_L(vs, ps, "Raise payment", "")
-Rel_D(ps, emp, "Issue payment", "")
-
-Rel_U(vs, bs, "Checks booking", "")
-Rel_U(vs, fs, "Checks evidence", "")
-
-Rel_R(bs, tdb, "Find course", "")
-Rel_D(vs, wds, "Checks employee/employer relationship", "")
-Rel_D(vs, nmc, "Checks employee registration", "")
-
-LAYOUT_WITH_LEGEND()
+SHOW_LEGEND_EX()
 @enduml
-
-System_Boundary(dtp, "Digital Platform") {
-  Container(web, "CWT Web App", "C#, ASP.NET Core 2.1 MVC", $descr="Front end for the CWT system", $sprite="AzureWebApp")
-  Container(col, "Collection Service", "C#, .NET", $descr="Process file imports", $sprite="AzureWebApp")
-  Container(mm, "Merge and Match Service", "C#, .NET", $descr="Match existing records, create new records", $sprite="AzureWebApp")
-  Container(der, "Derivation Service", "C#, .NET", $descr="Calculate derived fields", $sprite="AzureWebApp")
-  Container(cmp, "Compliance Service", "C#, .NET", $descr="Rules engine applying compliance rules", $sprite="AzureWebApp")
-  Container(syc, "Reports Synchroniser Service", "C#, .NET", $descr="Synchronise reporting data", $sprite="AzureWebApp")
-  ContainerDb(db, "CWT Databases", "MS SQL Server", $sprite="AzureSqlDatabase")
-  ContainerQueue(qu, "Queue", "SSQS", "FIFO Queues for intra-service messaging", $sprite="AzureQueueStorage", $tags="queue")
-}
-
-System_Boundary(id, "Identity") {
-  Container_Ext(sso, "SSO", "OAuth", $descr="Authentication", $sprite="AzureWebApp")
-}
-
-System_Boundary(scds, "SDCS") {
-  Container_Ext(auth, "ACL", "", $descr="Role based authorisation", $sprite="AzureWebApp")
-  Container_Ext(imp, "Import", "", $descr="File import and simple validation", $sprite="AzureWebApp")
-}
-
-Rel_R(tu, sso, "Authenticates with", "https")
-Rel_U(web, auth, "Authorises with", "https")
-Rel(tu, web, "Signs in", "https")
-Rel(tu, web, "Uploads CWT Data", "https")
-Rel_D(web, col, "Imports CWT Data using", "")
-Rel_U(col, imp, "Uses", "")
-'Rel(col, mm, "Supplies imported data", "")
-Rel(mm, db, "Queries from", "SQL")
-'Rel(mm, der, "", "")
-'Rel(der, cmp, "", "")
-'Rel_U(cmp, syc, "", "")
-Rel_U(syc, db, "Writes to", "SQL")
-
-BiRel_U(qu, col, "Messaging", "", $tags="message")
-BiRel_U(qu, mm, "Messaging", "", $tags="message")
-BiRel_L(qu, der, "Messaging", "", $tags="message")
-BiRel_D(qu, cmp, "Messaging", "", $tags="message")
-BiRel_D(qu, syc, "Messaging", "", $tags="message")
-
-Lay_L(imp, auth)
-
-LAYOUT_WITH_LEGEND()
-

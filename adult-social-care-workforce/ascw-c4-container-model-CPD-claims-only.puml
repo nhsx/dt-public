@@ -1,7 +1,9 @@
 @startuml ascw-c4-container-model-CPD-claims-only
-!include https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4-container-model-CPD-base.puml
+!include ascw-c4-container-model-CPD-base.puml
 
 AddRelTag("dashed", $lineStyle=DashedLine())
+
+Container(sc, "Submit CPD claims", "", $descr="Service to bulk upload CPD claims", $sprite="AzureWebApp")
 
 Person(rhp, "Regulated Health Professional", "Registered Nurses, Nurse Associates, OTs and AHPs")
 
@@ -15,15 +17,14 @@ Container_Ext(pf, "Payment File", "", $sprite="&file,scale=5.0")
 
 Container_Ext(fin, "Finance system", "", $descr="Process payments")
 
-Rel_R(rhp, emp, "1. Books and attends training, informs employer", "")
-Rel_D(emp, ilrs, "2. Records CPD", "")
-Rel_D(ilrs, sc, "3. Uploads evidence", "")
-Rel_R(app, ps, "4. Approves claim")
+Rel_R(rhp, emp, "$step(). Books and attends training, informs employer", "")
+Rel_D(emp, ilrs, "$step(). Records CPD", "")
+Rel_D(ilrs, sc, "$step(). Uploads evidence", "")
+Rel_R(app, ps, "$step(). Approves claim")
+Rel_L(fin, emp, "$step(). Receives payments", $tags="dashed")
 
 pf <-- ps
 fin <.. pf
-
-Rel_L(fin, emp, "5. Receives payments", $tags="dashed")
 
 SHOW_LEGEND_EX()
 
