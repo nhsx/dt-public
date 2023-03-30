@@ -1,5 +1,5 @@
 @startuml ascw-c4-container-model-claims-only
-!include ascw-c4-container-model-base.puml
+!include https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4-container-model-base.puml
 !startsub CONTAINERS
 
 AddRelTag("dashed", $lineStyle=DashedLine())
