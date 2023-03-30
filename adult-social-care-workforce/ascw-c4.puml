@@ -14,16 +14,22 @@
   SHOW_LEGEND()
 !endprocedure
 
-!procedure $initStep($start=1)
-!if (%not(%variable_exists("$stepno")))
-!global $stepno = $start
-!endif
-!endprocedure
-
-!function $step($start = 0)
-!$initStep()
-!global $stepno = $stepno + 1
-!return $stepno - 1
+!unquoted function with($b)
+!$x = 0
+!while ($x < %strlen($with))
+    !$c = %substr($with,$x,1)
+    !if ($c == $b)
+        !return %true()
+    !endif
+    !$x = $x+1
+!endwhile
+!return %false()
 !endfunction
+
+!VALIDATE_EMPLOYEE = "E"
+!VALIDATE_TP = "T"
+!VALIDATE_CQC = "C"
+!VALIDATE_RHP = "R"
+!VALIDATE_ALL = VALIDATE_EMPLOYEE + VALIDATE_TP + VALIDATE_CQC + VALIDATE_RHP 
 
 @enduml

@@ -1,0 +1,38 @@
+@startuml ascw-c4-container-model-with-booking
+'left to right direction
+!include ascw-c4-container-model-base.puml
+!global $with = VALIDATE_EMPLOYEE 
+!includesub ascw-c4-container-model-claims-only.puml!CONTAINERS
+!includesub ascw-c4-container-model-with-courses.puml!CONTAINERS
+
+Person(trn, "Training Provider", "Accredited provider who runs courses")
+
+Container_Ext(gvn, "Notification Service", "", $descr="Sends automated emails about bookings")
+
+Component(ilrs, "Training certificate", "pdf", $sprite="&file,scale=5.0,color=Azure")
+
+System_Boundary(dp, "Digital Platform") {
+  Container(rs, "Reporting system", "", $descr="Generates bi-annual reports and metrics", $sprite="AzureWebApp")  
+  Container(cl, "Course booking API", "", $descr="Schedule and book training", $sprite="AzureAPIManagement")
+  Container(fc, "Find and book training courses", "", $descr="Service to schedule and book training", $sprite="AzureAPIManagement")
+}
+
+Rel_D(rhp, fc, "1. Find and book specific course")
+Rel_R(trn, emp, "2. Invoices for training")
+Rel_L(emp, trn, "3. Pays for training")
+Rel_D(rhp, ilrs, "4. Attends training, receives certificate", "")
+Rel_D(ilrs, sc, "5. Uploads evidence", "")
+Rel_D(emp, sc, "6. Approves and submits claim")
+
+Rel_L(app, ps, "5. Approves claims")
+Rel_L(fin, emp, "6. Receives payments")
+
+Rel_U(fc, gvn, "Send notification")
+Rel_U(gvn, trn, "Send notification", $tags="dashed")
+Rel_U(gvn, emp, "Send notification", $tags="dashed")
+
+' layout
+rhp -[#hidden] trn
+
+SHOW_LEGEND_EX()
+@enduml

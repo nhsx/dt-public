@@ -1,0 +1,34 @@
+@startuml ascw-c4-container-model-claims-only
+!include ascw-c4-container-model-base.puml
+!startsub CONTAINERS
+
+AddRelTag("dashed", $lineStyle=DashedLine())
+
+Container(sc, "Submit claims", "", $descr="Service to bulk upload claims", $sprite="AzureWebApp")
+
+Person(rhp, "Regulated Health Professional", "Registered Nurses, Nurse Associates, OTs and AHPs")
+
+Person(emp, "Employer", "CQC regulated ASC provider")
+
+Person(app, "Approver", "Human who approves claims")
+
+Component(ilrs, "Individual Learning Records", "CSV", $sprite="&file,scale=5.0,color=Azure")
+
+Container_Ext(pf, "Payment File", "", $sprite="&file,scale=5.0")
+
+Container_Ext(fin, "Finance system", "", $descr="Process payments")
+
+pf <-- ps
+fin <.. pf
+
+!endsub
+
+Rel_R(rhp, emp, "1. Books and attends training, informs employer", "")
+Rel_D(emp, ilrs, "2. Records training", "")
+Rel_D(ilrs, sc, "3. Uploads evidence", "")
+Rel_R(app, ps, "4. Approves claim")
+Rel_L(fin, emp, "5. Receives payments", $tags="dashed")
+
+SHOW_LEGEND_EX()
+
+@enduml

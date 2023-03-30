@@ -1,0 +1,19 @@
+@startuml ascw-c4-container-model-direct
+!include ascw-c4-container-model-base.puml
+
+Container_Ext(pf, "Payment File", "", $sprite="&file,scale=5.0")
+
+Component(cert, "Training certificate", "pdf")
+
+Container_Ext(fin, "Finance system", "", $descr="Process payments")
+
+ps -> pf
+pf .> fin
+
+Rel_L(rhp, cert, "1. Books and attends training, receives certificate", "")
+Rel_D(cert, sc, "2. Makes claim, picks employer from provider list and uploads evidence", "")
+Rel_L(fin, rhp, "3. Receives payments", $tags="dashed")
+
+SHOW_LEGEND_EX()
+
+@enduml
