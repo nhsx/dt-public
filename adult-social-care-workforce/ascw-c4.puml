@@ -32,4 +32,6 @@
 !VALIDATE_RHP = "R"
 !VALIDATE_ALL = VALIDATE_EMPLOYEE + VALIDATE_TP + VALIDATE_CQC + VALIDATE_RHP 
 
+!global $relationships = %true()
+
 @enduml

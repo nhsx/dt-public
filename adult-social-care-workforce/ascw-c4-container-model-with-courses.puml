@@ -1,8 +1,10 @@
 @startuml ascw-c4-container-model-with-courses
-!include https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4-container-model-base.puml
-!includesub https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4-container-model-claims-only.puml!CONTAINERS
+!include ascw-c4-container-model-base.puml
+!$prev_relationships = $relationships
+!global $relationships = %false()
+!include ascw-c4-container-model-claims-only.puml
+!global $relationships = $prev_relationships
 
-!startsub CONTAINERS
 System_Boundary(dp, "Digital Platform") {
   Container(fc, "Find training courses", "", $descr="Service to find training courses", $sprite="AzureWebApp")
   Container(cl, "Course list API", "", $descr="List of acredited training courses", $sprite="AzureAPIManagement")
@@ -16,15 +18,14 @@ System_Boundary(dp, "Digital Platform") {
 
 Container_Ext(wta, "TP API", "", $descr="Training providers and accredited courses API", $sprite="AzureAPIManagement",  $tags="tobe")
 
-!endsub
-
-Rel_D(rhp, fc, "1. Find courses")
-Rel_R(rhp, emp, "2. Books and attends training, informs employer")
-Rel_D(emp, ilrs, "3. Records training attended")
-Rel_D(ilrs, sc, "4. Uploads evidence")
-Rel_L(app, ps, "5. Approves claims")
-Rel_L(fin, emp, "6. Receives payments")
-
+!if ($relationships)
+  Rel_D(rhp, fc, "1. Find courses")
+  Rel_R(rhp, emp, "2. Books and attends training, informs employer")
+  Rel_D(emp, ilrs, "3. Records training attended")
+  Rel_D(ilrs, sc, "4. Uploads evidence")
+  Rel_L(app, ps, "5. Approves claims")
+  Rel_L(fin, emp, "6. Receives payments")
+!endif
 
 SHOW_LEGEND_EX()
 @enduml

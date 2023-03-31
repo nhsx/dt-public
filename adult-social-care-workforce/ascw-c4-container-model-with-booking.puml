@@ -1,9 +1,10 @@
 @startuml ascw-c4-container-model-with-booking
 'left to right direction
-!include https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4-container-model-base.puml
-!global $with = VALIDATE_EMPLOYEE 
-!includesub https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4-container-model-claims-only.puml!CONTAINERS
-!includesub https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4-container-model-with-courses.puml!CONTAINERS
+!include ascw-c4-container-model-base.puml
+!global $relationships = %false()
+!include ascw-c4-container-model-claims-only.puml
+!include ascw-c4-container-model-with-courses.puml
+!global $relationships = %true()
 
 Person(trn, "Training Provider", "Accredited provider who runs courses")
 

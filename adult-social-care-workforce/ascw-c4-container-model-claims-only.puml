@@ -1,6 +1,5 @@
 @startuml ascw-c4-container-model-claims-only
-!include https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4-container-model-base.puml
-!startsub CONTAINERS
+!include ascw-c4-container-model-base.puml
 
 AddRelTag("dashed", $lineStyle=DashedLine())
 
@@ -21,13 +20,13 @@ Container_Ext(fin, "Finance system", "", $descr="Process payments")
 pf <-- ps
 fin <.. pf
 
-!endsub
-
-Rel_R(rhp, emp, "1. Books and attends training, informs employer", "")
-Rel_D(emp, ilrs, "2. Records training", "")
-Rel_D(ilrs, sc, "3. Uploads evidence", "")
-Rel_R(app, ps, "4. Approves claim")
-Rel_L(fin, emp, "5. Receives payments", $tags="dashed")
+!if ($relationships)
+  Rel_R(rhp, emp, "1. Books and attends training, informs employer", "")
+  Rel_D(emp, ilrs, "2. Records training", "")
+  Rel_D(ilrs, sc, "3. Uploads evidence", "")
+  Rel_R(app, ps, "4. Approves claim")
+  Rel_L(fin, emp, "5. Receives payments", $tags="dashed")
+!endif
 
 SHOW_LEGEND_EX()
 

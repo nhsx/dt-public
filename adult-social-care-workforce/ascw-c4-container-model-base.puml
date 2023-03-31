@@ -1,5 +1,5 @@
 @startuml ascw-c4-container-model-base
-!include https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4.puml
+!include ascw-c4.puml
 !global $with = VALIDATE_EMPLOYEE + VALIDATE_TP
 
 AddRelTag("dashed", $lineStyle=DashedLine(), $legendText="external process\ndashed line")
