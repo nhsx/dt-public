@@ -1,6 +1,6 @@
 @startuml ascw-c4-container-model-with-courses
 !include https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4-container-model-base.puml
-!includesub ascw-c4-container-model-claims-only.puml!CONTAINERS
+!includesub https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4-container-model-claims-only.puml!CONTAINERS
 
 !startsub CONTAINERS
 System_Boundary(dp, "Digital Platform") {
