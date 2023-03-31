@@ -26,5 +26,5 @@ if __name__ == '__main__':
     print(os.getcwd())
     replaceInFiles(r"/home/runner/work/dt-public/dt-public",
                    r"/home/runner/work/dt-public/dt-public/**/*.puml",
-                   "([!]include\s+?)([^<:]+?\n)",
+                   "([!]include\w{0,3}\s+?)([^<:]+?\n)",
                    "https://raw.githubusercontent.com/nhsx/dt-public/main/")
