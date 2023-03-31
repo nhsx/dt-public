@@ -1,6 +1,10 @@
 @startuml ascw-c4-container-model-base
-!include https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4.puml
-!global $with = VALIDATE_EMPLOYEE + VALIDATE_TP
+!include ascw-c4.puml
+
+!if (%not(%variable_exists("$with"))) 
+  'default if not already set
+  !global $with = VALIDATE_EMPLOYEE + VALIDATE_TP + CPD
+!endif
 
 AddRelTag("dashed", $lineStyle=DashedLine(), $legendText="external process\ndashed line")
 AddElementTag("tobe", $bgColor="White", $fontColor="Gray", $borderColor="DarkGray", $legendText="to be external API")
@@ -34,14 +38,16 @@ System_Boundary(dp, "Digital Platform") {
 !endif
 
 !if (with(VALIDATE_RHP))
-  Person(rhp, "Regulated Health Professional", "Registered Nurses, Nurse Associates, OTs and AHPs")
-
   System_Boundary(nmc, "Nursing and midwifery council") {
     ContainerDb_Ext(nmr, "NMC Register", "", $descr="Registered nurse dataset", $sprite="AzureSqlDatabase")
     Container_Ext(nma, "NMC API", "", $descr="Registered nurse API", $sprite="AzureAPIManagement",  $tags="tobe")
     nma -- nmr
     Rel_D(vs, nma, "Checks registration number")
   }
+!endif
+
+!if (with(CPD))
+  Person(rhp, "Regulated Health Professional", "Registered Nurses, Nurse Associates, OTs and AHPs")
 !else
   Person(rhp, "Unregulated care staff" , "Healthcare assistants, care workers, support workers, live-in carers")
 !endif

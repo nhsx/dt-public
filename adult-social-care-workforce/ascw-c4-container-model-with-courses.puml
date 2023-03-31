@@ -1,8 +1,10 @@
 @startuml ascw-c4-container-model-with-courses
-!include https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4-container-model-base.puml
+!include ascw-c4.puml
 !$prev_relationships = $relationships
+!$with = VALIDATE_EMPLOYEE + VALIDATE_TP + TARGETED_UPSKILLING
+!include ascw-c4-container-model-base.puml
 !global $relationships = %false()
-!include https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4-container-model-claims-only.puml
+!include ascw-c4-container-model-claims-only.puml
 !global $relationships = $prev_relationships
 
 System_Boundary(dp, "Digital Platform") {

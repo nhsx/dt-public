@@ -26,12 +26,12 @@
 !return %false()
 !endfunction
 
+!TARGETED_UPSKILLING = "U"
+!CPD = "D"
 !VALIDATE_EMPLOYEE = "E"
 !VALIDATE_TP = "T"
 !VALIDATE_CQC = "C"
 !VALIDATE_RHP = "R"
 !VALIDATE_ALL = VALIDATE_EMPLOYEE + VALIDATE_TP + VALIDATE_CQC + VALIDATE_RHP 
-
-!global $relationships = %true()
 
 @enduml

@@ -1,11 +1,9 @@
 @startuml ascw-c4-container-model-claims-only
-!include https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4-container-model-base.puml
+!include ascw-c4-container-model-base.puml
 
 AddRelTag("dashed", $lineStyle=DashedLine())
 
 Container(sc, "Submit claims", "", $descr="Service to bulk upload claims", $sprite="AzureWebApp")
-
-Person(rhp, "Regulated Health Professional", "Registered Nurses, Nurse Associates, OTs and AHPs")
 
 Person(emp, "Employer", "CQC regulated ASC provider")
 
