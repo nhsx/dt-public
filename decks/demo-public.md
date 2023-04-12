@@ -1,6 +1,6 @@
 name: master-slide
 
-background-image: url(NHS-background-slide.png)
+background-image: url(demo-background-public.png)
 class: middle
 layout: true
 
