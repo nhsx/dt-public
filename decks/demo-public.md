@@ -1,6 +1,6 @@
 name: master-slide
 
-background-image: url(demo-background-public.png)
+background-image: url(background-public.png)
 class: middle
 layout: true
 

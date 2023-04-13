@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <style>
+      @font-face {
+        font-display: swap;
+        font-family: Frutiger W01;
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.eot?#iefix);
+        src: url(https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.eot?#iefix) format("eot"),url(https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.woff2) format("woff2"),url(https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.woff) format("woff"),url(https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.ttf) format("truetype"),url(https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.svg#7def0e34-f28d-434f-b2ec-472bde847115) format("svg")
+      }
+      body { font-family: 'Frutiger W01',Arial,sans-serif; }
+      h1, h2, h3 {
+        font-family: 'Frutiger W01',Arial,sans-serif;
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      
+      .remark-slide-content {
+        background-position: top;
+        padding: 1em 3em 1em 4em;
+      }
+      
+      .float-left {
+        float:left;
+        padding-left:50px;
+      }
+      
+      .table-slide {
+        padding: 0em 2em 0em 3em;
+        vertical-align: top !important;
+      }
+      
+      .table-slide h1, .table-slide h2 {
+        color: white;
+        margin-top: 0.5ex;
+      }  
+    </style>
+  </head>
+  <body>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create({
+                        sourceUrl: 'tech-arch-public.md'
+                      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true});</script>
+ 
+  </body>
+</html>
