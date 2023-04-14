@@ -255,6 +255,42 @@ To understand this a TA would map the unique concerns across the stakeholders, c
 An example is given in the slide.
 
 ---
+name: constraints
+# Constraints
+
+Some examples of the types of constraints that may apply:
+
+- MUST use Oracle SASS products as there is an ongoing commercial arrangement
+
+- MUST integrate with the legacy BAU system via file transfer as this system is too expensive to replace at present and is business critical
+
+- MUST ensure all data is kept in UK data centres and can be retained for the minimum legal term of 7 years
+
+???
+notes for the constraints slide
+
+In addition to identifying the stakeholders and their concerns, before beginning to design a to-be architecture for a system, the architect must also take account of any constraints on the architecture. Very few projects are entirely green field, with absolute freedom to make whatever technology choice seems the most appropriate, in general there will be very hard constraints on the types of technology, and structure of any future solution.
+
+---
+name: nfrs
+# Non-functional requirements (NFRs)
+
+Some examples of the types of NFR:
+
+- Performance: financial trading system MUST have low latency and be able execute 100 trades per second
+
+- Scalability: social media platform MUST be able to handle 100 million users creating 1Bn posts per day
+
+- Security: healthcare system MUST protect patient data and ensure only users authorised by the patient have access
+
+- Availability: payment system MUST be available 99.999% of the time and have a high level of fault tolerance
+
+???
+notes for the nfrs slide
+
+In addition to business, technology and infrastructure constraints all systems will usually have to meet a set of **non-functional requirements**, these also act as constraints on the choices of technology an architect may make.
+
+---
 name: viewpoints
 # Viewpoints
 
