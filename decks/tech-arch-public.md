@@ -352,12 +352,13 @@ Some architecure frameworks are quite opinionated about the tools to use when mo
 As opposed to these more fully featured toolsets there is an increasing number of light weight "diagrams as code" type tools, that enable an TA to quickly produce architectural models using simple text based markup. The advantage of these tools, aside from their ease of use, is their ability to sit alongside code in code repoistory and to keep a history of changes as simple textual diffs.
 
 ---
-
+name: plantuml
 # PlantUML example
 
 ![architects](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/nhsx/dt-public/main/architects.puml&fmt=svg)
 
 ---
+name: mermaid
 class: table-slide
 
 # Mermaid example
@@ -377,6 +378,21 @@ journey
 </div>
 
 ---
+name: remarkjs
+# How this deck was made
+
+- this deck was built using [Remarkjs](https://remarkjs.com/)
+
+- a lightweight JavaScript library for turning markdown into slide shows
+
+- the raw markdown for this presentation is [here](https://raw.githubusercontent.com/nhsx/dt-public/main/decks/tech-arch-public.md)
+
+- this deck is being published in the standard way using [Github pages](https://pages.github.com/) 
+
+- so now we can do SSaC (Slide Shows as Code) and source code control them just like everything else in Git!
+
+---
+name: seealso
 # See Also
 
 Some useful links
