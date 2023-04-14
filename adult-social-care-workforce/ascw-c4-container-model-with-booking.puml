@@ -1,7 +1,7 @@
 @startuml ascw-c4-container-model-with-booking
 'left to right direction
 !global $relationships = %false()
-!include https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4-container-model-with-courses.puml
+!include ascw-c4-container-model-with-courses.puml
 !global $relationships = %true()
 
 Person(trn, "Training Provider", "Accredited provider who runs courses")
@@ -23,8 +23,8 @@ Rel_D(rhp, ilrs, "4. Attends training, receives certificate", "")
 Rel_D(ilrs, sc, "5. Uploads evidence", "")
 Rel_D(emp, sc, "6. Approves and submits claim")
 
-Rel_L(app, ps, "5. Approves claims")
-Rel_L(fin, emp, "6. Receives payments")
+Rel_L(app, ps, "7. Approves claims")
+Rel_L(fin, emp, "8. Receives payments")
 
 Rel_U(fc, gvn, "Send notification")
 Rel_U(gvn, trn, "Send notification", $tags="dashed")

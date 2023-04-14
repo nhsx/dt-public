@@ -1,0 +1,41 @@
+@startuml ascw-data-flow-diagram
+digraph dfd {
+  node[shape=record]
+  ilr [label="<f0> D1|<f1> Individual\nlearner\nrecords"];
+  cert [label="<f0> D2|<f1> Evidence\nof completed\ntraining"]
+  
+  uploadcsv [label="{<f0> 1.0|<f1> Employer uploads CSV\nto claim service\n\n\n}" shape=Mrecord];
+  uploadcert [label="{<f0> 2.0|<f1> Employer uploads evidence\nto claim service\n\n\n}" shape=Mrecord];
+    
+  emp [label="Employer" shape=box];
+  rhp [label="Regulated\nHealth\nProfessional" shape=box]
+
+  evidencestore [label="<f0> D3|<f1> Evidence file storage"]
+  employeetable [label="<f0> D4|<f1> Employees"]
+  employertable [label="<f0> D5|<f1> Employers"]
+  trainingevents [label="<f0> D6|<f1> Training events"]
+  trainingproviders [label="<f0> D6|<f1> Training providers"]
+
+  lookupemp [label="{<f0> 3.0|<f1> Lookup\nemployer\nand employee\n\n}" shape=Mrecord];
+  lookuptp [label="{<f0> 4.0|<f1> Lookup\ntraining provider\n\n\n}" shape=Mrecord];
+        
+
+  emp -> ilr:f1
+  rhp -> cert:f1
+  ilr:f1 -> uploadcsv:f0
+  cert:f1 -> uploadcert:f0
+  uploadcert:f1 -> evidencestore
+  
+  uploadcsv:f1 -> trainingevents [label = "   employee details,\l   employer id,\l   training provider id,\l   training course details,\l   date completed\l   evidence reference\l"]
+ 
+  {rank=same trainingevents evidencestore}
+  trainingevents -> evidencestore [style = "dotted" headclip=true arrowhead=none]
+
+  trainingevents:f1 -> lookupemp [label = "  employer\l  and employee\l  details\l"]
+  trainingevents:f1 -> lookuptp  [label = "  training\l  provider id\l"]
+
+  lookupemp:f1 -> employertable [label = "  employer id"]
+  lookupemp:f1 -> employeetable [label = "  employee\l  registration\l  number\l"]
+  lookuptp:f1 -> trainingproviders [label = "  training\l  provider id\l"]
+}
+@enduml
