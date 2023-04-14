@@ -106,7 +106,7 @@ In addition to identifying the stakeholders and their concerns, before beginning
 
 Some examples of the types of constraints that may apply:
 
-- MUST use Oracle SASS products as there is an ongoing commercial arrangement
+- MUST use Oracle SaaS products as there is an ongoing commercial arrangement
 - MUST integrate with the legacy BAU system via file transfer as this system is too expensive to replace at present and is business critical
 - MUST ensure all data is kept in UK data centres and can be retained for the minimum legal term of 7 years
 

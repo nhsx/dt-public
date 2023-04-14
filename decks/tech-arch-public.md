@@ -260,7 +260,7 @@ name: constraints
 
 Some examples of the types of constraints that may apply:
 
-- MUST use Oracle SASS products as there is an ongoing commercial arrangement
+- MUST use Oracle SaaS products as there is an ongoing commercial arrangement
 
 - MUST integrate with the legacy BAU system via file transfer as this system is too expensive to replace at present and is business critical
 

@@ -1,5 +1,5 @@
 @startuml ascw-c4-container-model-direct
-!include https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4-container-model-base.puml
+!include ascw-c4-container-model-base.puml
 
 Container_Ext(pf, "Payment File", "", $sprite="&file,scale=5.0")
 
