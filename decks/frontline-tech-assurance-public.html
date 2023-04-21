@@ -3,6 +3,7 @@
   <head>
     <title>DRAFT - Frontline Tech Assurance Framework </title>
     <meta charset="utf-8">
+    <link rel="icon" type="image/x-icon" href="favicon-nhs.png">
     <style>
       @font-face {
         font-display: swap;
@@ -30,6 +31,15 @@
       li {
         padding-bottom: 2ex;
       }
+      .table-slide {
+        padding: 0em 2em 0em 3em;
+        vertical-align: top !important;
+      }
+      
+      .table-slide h1, .table-slide h2 {
+        color: white;
+        margin-top: 0.5ex;
+      } 
     </style>
   </head>
   <body>
@@ -40,5 +50,7 @@
                         sourceUrl: 'frontline-tech-assurance-public.md'
                       });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true});</script>
   </body>
 </html>

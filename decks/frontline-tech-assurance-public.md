@@ -66,3 +66,125 @@ name: open-source
 Although EPRs will tend to be OTS 3rd party proprietary systems, and the supplier will want to exercise full control on their IP, each system will involve significant customisation and bespoke integration and configuration, new application code, configuration code and infrastructure as code MUST be made open.
 
 
+---
+name: open-standards
+
+# 4. Make use of open standards
+
+- .red-line[MUST use NHS Number as the primary patient identifier]
+- .red-line[All APIs and data structures MUST conform to relevant [Open Standards for government](https://www.gov.uk/government/publications/open-standards-for-government)]
+ - for example: [ISO 8601:2004](https://www.iso.org/standard/40874.html) for dates, [rfc5545](https://tools.ietf.org/html/rfc5545) for calender events  and [ISO 3166-1:2013](https://www.iso.org/standard/63545.html) for country codes 
+- .red-line[All public APIs MUST conform to the [Care Connect FHIR APIs](https://nhsconnect.github.io/CareConnectAPI/explore.html)]
+- .red-line[All medicine records MUST use the [SNOMED-CT](https://digital.nhs.uk/data-and-information/information-standards/information-standards-and-data-collections-including-extractions/publications-and-notifications/standards-and-collections/scci0034-snomed-ct) codes]
+- All medicine and medical device records COULD use the [Dictionary of medicines and devices](https://digital.nhs.uk/data-and-information/information-standards/information-standards-and-data-collections-including-extractions/publications-and-notifications/standards-and-collections/scci0052-dictionary-of-medicines-and-devices-dm-d) (dm+d) standard?
+
+???
+- difficult to work out exactly what the requirements are here, as a lot of the resources are "In draft" or "subject to change" or "for information only following the merger of NHSD and NHSE"
+- some links:
+ - [Clinical Information Standards](https://digital.nhs.uk/about-nhs-digital/corporate-information-and-documents/nhs-digital-data-and-technology-standards/clinical-information-standards)
+ - [NHSE Interopability](https://www.england.nhs.uk/digitaltechnology/connecteddigitalsystems/interoperability/)
+ - [End-to-end model for standards](https://future.nhs.uk/Interoperability/view?objectID=121701317#)
+ - [Care Connect API](https://nhsconnect.github.io/CareConnectAPI/index.html)
+
+---
+name: cloud-first
+class: table-slide
+# 5. Use cloud first
+
+- .red-line[MUST follow both the government's [cloud first policy](https://www.gov.uk/guidance/government-cloud-first-policy) and the [NHS Public cloud first](https://digital.nhs.uk/developer/nhs-digital-architecture/principles/public-cloud-first) strategy]
+ - practically that means procuring a solution hosted on one of the hyperscale public clouds AWS, Azure or GCP
+- For OTS SHOULD prefer SaaS over Serverless / PaaS / IaaS solutions
+- For custom builds SHOULD favour Serverless over PaaS and PaaS over IaaS solutions
+
+<div class="mermaid">
+flowchart LR
+    C{Type of solution?}
+    C --> |OTS| D[SaaS]
+    C --> |Custom build| E[Serverless]
+    E --> F[PaaS]
+    F --> G[IaaS]
+</div>
+
+???
+Proposing an order of precedence for the type of cloud solutions, with an expectation to shift away from IaaS type offerings.
+
+---
+name: security
+# 6. Make things secure
+
+- Data security
+- Service security
+- Cloud security
+
+???
+Security is a big topic, there should be a strong focus on security within any EPR procurement. 
+
+There is a labyrinth of guidance, standards and frameworks which overlap and apply to the NHS and services procured by the NHS.
+
+The merger of NHSD, E and X has not really helped here.
+
+Current strategy as set out by DHSC: https://www.gov.uk/government/publications/cyber-security-strategy-for-health-and-social-care-2023-to-2030/a-cyber-resilient-health-and-adult-social-care-system-in-england-cyber-security-strategy-to-2030
+
+
+
+---
+name: privacy
+# 7. Make privacy integral
+Make sure users rights are protected by integrating privacy as an essential part of your system.
+
+Read more about TCoP point 7 - Make privacy integral.
+
+---
+name: reuse
+# 8. Share, reuse and collaborate
+Avoid duplicating effort and unnecessary costs by collaborating across government and sharing and reusing technology, data, and services.
+
+Read more about TCoP point 8 - Share, reuse and collaborate.
+
+???
+
+---
+name: integrate
+# 9. Integrate and adapt technology
+Your technology should work with existing technologies, processes and infrastructure in your organisation, and adapt to future demands.
+
+Read more about TCoP point 9 - Integrate and adapt technology.
+
+???
+
+---
+name: data
+# 10. Make better use of data
+Use data more effectively by improving your technology, infrastructure and processes.
+
+Read more about TCoP point 10 - Make better use of data.
+
+???
+
+---
+name: purchasing
+
+# 11. Define your purchasing strategy
+Your purchasing strategy must show you’ve considered commercial and technology aspects, and contractual limitations.
+
+Read more about TCoP point 11 - Define your purchasing strategy.
+
+???
+
+---
+name: sustain
+# 12. Make your technology sustainable
+Increase sustainability throughout the lifecycle of your technology.
+
+Read more about TCoP point 12 - Make your technology sustainable.
+
+???
+
+---
+name: service-standard
+
+# 13. Meet the Service Standard
+
+If you’re building a service as part of your technology project or programme you will also need to meet the Service Standard
+
+???
