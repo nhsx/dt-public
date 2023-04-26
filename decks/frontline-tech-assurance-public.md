@@ -125,7 +125,61 @@ The merger of NHSD, E and X has not really helped here.
 
 Current strategy as set out by DHSC: https://www.gov.uk/government/publications/cyber-security-strategy-for-health-and-social-care-2023-to-2030/a-cyber-resilient-health-and-adult-social-care-system-in-england-cyber-security-strategy-to-2030
 
+---
+name: data-security
+class: table-slide
+# 6.1 Data Security
 
+- .red-line[MUST adopt CIA principles for data security]
+  - confidentiality - information should only be seen by people who are authorised to access it
+  - integrity – information should only be modified by people who are authorised to do so
+  - availability - information should be available when needed (problems or attacks shouldn’t stop you getting information from the system)
+  - non-repudiation - nothing should happen in a system that can’t be traced back to a responsible person
+- .red-line[MUST perform a Data Protection Impact Assessment (DPIA)]
+- .red-line[MUST self assess against the [Data Security and Protection Toolkit](https://www.dsptoolkit.nhs.uk/)]
+- SHOULD self assess against the [NCSC Cyber Essentials baseline](https://www.ncsc.gov.uk/cyberessentials/overview)
+
+???
+EPR solution must meet the requirements of the NHS [Records Management Code of Practice 2021](https://transform.england.nhs.uk/information-governance/guidance/records-management-code/records-management-code-of-practice-2021/)
+
+---
+name: service-security
+# 6.2 Service Security
+
+- .red-line[MUST undergo regular IT Health Checks (penetration tests)]
+- .red-line[MUST remediate all HIGH and MEDIUM risks identified]
+  - MUST give a rationale if an identified risk is not fixed
+- .red-line[MUST ensure the service is not susceptible to any of the Open Web Application Security Project (OWASP) top 10 vulnerabilities]
+- SHOULD adopt a formal set of application security controls, for example, from the [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
+
+???
+EPR solution should follow the [NCSC Cloud Security Guidance](https://www.ncsc.gov.uk/collection/cloud)
+
+---
+name: cloud-security
+# 6.3 Cloud Security
+
+- .red-line[MUST adopt a Zero Trust posture]
+  - Assume breach
+  - Rule of least privilege
+  - Verify explicitly
+- .red-line[MUST encrypt all data at rest and in transit]
+- SHOULD prefer cloud provider managed keys rather than customer managed keys for encryption 
+
+???
+EPR solution should follow the [NCSC Cloud Security Guidance](https://www.ncsc.gov.uk/collection/cloud)
+
+[NCSC advise](https://www.ncsc.gov.uk/blog-post/mythbusting-cloud-key-management-services) that using CSP managed keys is actually more secure than bringing your own keys. 
+---
+name: sms-security
+# 6.4 Patient Communications Security
+
+For EPR solutions that include requirements for patient communications by SMS text message.
+
+- .red-line[MUST follow [NCSC SMS best practice](https://www.ncsc.gov.uk/guidance/business-communications-sms-and-telephone-best-practice)]
+- .red-line[All SMS messages MUST use a Sender ID that has been registered with the [MEF](https://mobileecosystemforum.com/sms-senderid-protection-registry/)]
+
+???
 
 ---
 name: privacy
