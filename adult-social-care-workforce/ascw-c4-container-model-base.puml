@@ -1,5 +1,5 @@
 @startuml ascw-c4-container-model-base
-!include ascw-c4.puml
+!include https://raw.githubusercontent.com/nhsx/dt-public/main/adult-social-care-workforce/ascw-c4.puml
 
 !if (%not(%variable_exists("$with"))) 
   'default if not already set
