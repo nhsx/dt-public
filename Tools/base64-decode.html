@@ -3,8 +3,11 @@
 <title>Base64 Decodertron</title>
 <script type="text/javascript">
 window.onload = function() {
-  let summary = window.location.url
-  document.getElementById("summary").value = summary; 
+  let summary_encoded = window.location.search.substring(9);
+  // Decode the Base64 string
+  let summary_decoded = atob(summary_encoded);
+  // Display the decoded string in the paragraph element
+  document.getElementById("summary").textContent = summary_decoded;
 }
 </script>
 </head>
